@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
 
     private CharacterController characterController;
     private Camera camera;
+    private Health playerHealth;
 
     private bool isOnLadder;
 
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour {
         characterController = GetComponent<CharacterController>();
         camera = FindObjectOfType<Camera>();
         camera.GetComponent<CameraController>().SetPlayer(this.gameObject);
+        playerHealth = GetComponent<Health>();
 	}
 
     void Update(){
@@ -31,21 +33,27 @@ public class PlayerController : MonoBehaviour {
             float y = Input.GetAxis("Vertical") * speed * Time.deltaTime;
             float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
 
-            if (y != 0){
+            if (y > 0){
                 movement = (this.gameObject.transform.up * y) + (camera.gameObject.transform.right * x);
-            }else if (Input.GetKey(KeyCode.LeftShift)){
+            }else if(y < 0){
+                movement = (camera.gameObject.transform.forward * y) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0);
+            }
+            else if (Input.GetKey(KeyCode.LeftShift)){
                 movement = camera.gameObject.transform.right * x;
             }else{
                 movement = (this.gameObject.transform.up * -9.8f * Time.deltaTime) + (camera.gameObject.transform.right * x);
             }
         }
-
+        
         characterController.Move(movement);
     }
 
     private void OnTriggerEnter(Collider other){
         if (other.gameObject.tag == "Ladder"){
             isOnLadder = true;
+        }else if(other.gameObject.GetComponent<Bullet>() != null){
+            playerHealth.TakeDamage(other.gameObject.GetComponent<Bullet>().bulletDamage);
+            Debug.Log(playerHealth.GetCurrentHealth());
         }
     }
 
@@ -54,5 +62,5 @@ public class PlayerController : MonoBehaviour {
             isOnLadder = false;
         }
     }
-
+    
 }
