@@ -7,12 +7,12 @@ public class Bullet : MonoBehaviour {
     public int bulletSpeed;
     public int bulletDamage;
 
-    [SerializeField] private GameObject originObject;
-    private Transform originTransform;
+    public GameObject originObject;
+    private Vector3 originTransform;
     private Rigidbody rb;
 
     void Start(){
-        originTransform = originObject.transform;
+        originTransform = originObject.transform.forward;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -21,6 +21,10 @@ public class Bullet : MonoBehaviour {
     }
 
     private void Move(){
-        rb.velocity = originTransform.forward * bulletSpeed;
+        rb.velocity = originTransform * bulletSpeed;
+    }
+
+    private void OnTriggerEnter(Collider other){
+        Destroy(this.gameObject);
     }
 }

@@ -13,8 +13,12 @@ public class CameraController : MonoBehaviour {
     public float xRotation = 0;
 
     private GameObject player;
+    private GameObject playerGun;
     public void SetPlayer(GameObject p){
         player = p;
+    }
+    public void SetPlayerGun(GameObject g){
+        playerGun = g;
     }
 
     private void LateUpdate()
@@ -34,8 +38,11 @@ public class CameraController : MonoBehaviour {
         xRotation = Mathf.Clamp(xRotation, minVertRotation, maxVertRotation);
 
         float delta = Input.GetAxis("Mouse X") * horizontalSensitivity;
-        float rotationY = transform.localEulerAngles.y + delta;
+        float yRotation = transform.localEulerAngles.y + delta;
 
-        transform.localEulerAngles = new Vector3(xRotation, rotationY, 0);
+        transform.localEulerAngles = new Vector3(xRotation, yRotation, 0);
+
+        player.transform.localEulerAngles = new Vector3(0, yRotation, 0);
+        playerGun.transform.localEulerAngles = new Vector3(xRotation, 0, 0);
     }
 }
