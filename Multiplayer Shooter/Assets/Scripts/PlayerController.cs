@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour {
     private void SpawnBullet(){
         if (bulletPrefab != null){
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
-            bullet.GetComponent<Bullet>().originObject = this.gameObject;
+            bullet.GetComponent<Bullet>().originObject = playerGun;
         }
     }
 

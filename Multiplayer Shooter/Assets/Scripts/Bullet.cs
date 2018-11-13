@@ -7,6 +7,8 @@ public class Bullet : MonoBehaviour {
     public int bulletSpeed;
     public int bulletDamage;
 
+    public float secondsBeforeDestroyed;
+
     public GameObject originObject;
     private Vector3 originTransform;
     private Rigidbody rb;
@@ -14,6 +16,8 @@ public class Bullet : MonoBehaviour {
     void Start(){
         originTransform = originObject.transform.forward;
         rb = GetComponent<Rigidbody>();
+
+        StartCoroutine(DestroyBullet());
     }
 
     private void Update(){
@@ -25,6 +29,12 @@ public class Bullet : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other){
+        Destroy(this.gameObject);
+    }
+
+    private IEnumerator DestroyBullet(){
+        yield return new WaitForSeconds(secondsBeforeDestroyed);
+
         Destroy(this.gameObject);
     }
 }
