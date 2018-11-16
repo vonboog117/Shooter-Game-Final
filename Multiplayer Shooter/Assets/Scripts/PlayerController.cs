@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : NetworkBehaviour {
 
     public float speed;
     public float rotationSpeed;
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject playerGun;
     [SerializeField] private GameObject bulletSpawn;
+    [SerializeField] private Texture2D crosshair;
 
     private CharacterController characterController;
     private Camera camera;
@@ -87,5 +89,8 @@ public class PlayerController : MonoBehaviour {
             isOnLadder = false;
         }
     }
-    
+
+    private void OnGUI(){
+        GUI.DrawTexture(new Rect(Screen.width / 2, Screen.height / 2, 10, 10), crosshair);
+    }
 }

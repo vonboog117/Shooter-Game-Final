@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 143817372929970260}
   - component: {fileID: 114633245609665896}
   - component: {fileID: 114879728141885924}
+  - component: {fileID: 114966594198717182}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -187,7 +188,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1310805961803556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -50.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.7, z: -37.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4643208561056288}
@@ -349,7 +350,9 @@ MonoBehaviour:
   rotationSpeed: 10
   bulletPrefab: {fileID: 1366045163466122, guid: f1406c6120e7c44028851d7b46364763,
     type: 2}
+  playerGun: {fileID: 1220554765454020}
   bulletSpawn: {fileID: 1448332497587780}
+  crosshair: {fileID: 2800000, guid: da1b63585c46f4c8888f1197960f6646, type: 3}
 --- !u!114 &114879728141885924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -362,6 +365,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+--- !u!114 &114966594198717182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1310805961803556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 164
+    i1: 130
+    i2: 67
+    i3: 54
+    i4: 203
+    i5: 222
+    i6: 36
+    i7: 39
+    i8: 88
+    i9: 27
+    i10: 184
+    i11: 22
+    i12: 75
+    i13: 245
+    i14: 242
+    i15: 240
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!136 &136010202733440748
 CapsuleCollider:
   m_ObjectHideFlags: 1

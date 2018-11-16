@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : NetworkBehaviour {
 
     public float verticalSensitivity;
     public float horizontalSensitivity;
@@ -23,6 +24,9 @@ public class CameraController : MonoBehaviour {
 
     private void LateUpdate()
     {
+        if (!NetworkClient.active){
+            return;
+        }
         Move();
         Rotate();
     }
