@@ -12,16 +12,18 @@ public class PlayerController : NetworkBehaviour {
     [SerializeField] private GameObject playerGun;
     [SerializeField] private GameObject bulletSpawn;
     [SerializeField] private Texture2D crosshair;
+    [SerializeField] private NetworkManager networkManager;
 
     private CharacterController characterController;
     private Camera camera;
     private Health playerHealth;
 
     private bool isOnLadder;
+    private bool recieveInput = true;
+
+    public bool GetReciveInput(){return recieveInput;}
 
 	void Start () {
-        Cursor.lockState = CursorLockMode.Locked;
-
         characterController = GetComponent<CharacterController>();
         camera = FindObjectOfType<Camera>();
         camera.GetComponent<CameraController>().SetPlayer(this.gameObject);
@@ -30,10 +32,38 @@ public class PlayerController : NetworkBehaviour {
 	}
 
     void Update(){
-        Move();
+        if (!isLocalPlayer){
+            return;
+        }
 
-        if (Input.GetMouseButtonDown(0)){
-            SpawnBullet();
+        if (recieveInput){
+            Move();
+
+            if (Input.GetMouseButtonDown(0)){
+                SpawnBullet();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            Cursor.lockState = CursorLockMode.None;
+            recieveInput = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && Cursor.lockState.Equals(CursorLockMode.None)){
+            Cursor.lockState = CursorLockMode.Locked;
+            recieveInput = true;
+        }
+    }
+
+    private void OnGUI(){
+        if (isLocalPlayer){
+            GUI.DrawTexture(new Rect(Screen.width / 2, Screen.height / 2, 10, 10), crosshair);
+        }
+    }
+
+    public override void OnStartLocalPlayer(){
+        if (isLocalPlayer){
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -88,9 +118,5 @@ public class PlayerController : NetworkBehaviour {
         if (other.gameObject.tag == "Ladder"){
             isOnLadder = false;
         }
-    }
-
-    private void OnGUI(){
-        GUI.DrawTexture(new Rect(Screen.width / 2, Screen.height / 2, 10, 10), crosshair);
     }
 }

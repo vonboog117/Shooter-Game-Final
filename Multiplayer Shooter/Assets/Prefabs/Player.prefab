@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 114633245609665896}
   - component: {fileID: 114879728141885924}
   - component: {fileID: 114966594198717182}
+  - component: {fileID: 114698633678670598}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -353,6 +354,28 @@ MonoBehaviour:
   playerGun: {fileID: 1220554765454020}
   bulletSpawn: {fileID: 1448332497587780}
   crosshair: {fileID: 2800000, guid: da1b63585c46f4c8888f1197960f6646, type: 3}
+  networkManager: {fileID: 0}
+--- !u!114 &114698633678670598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1310805961803556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 4
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114879728141885924
 MonoBehaviour:
   m_ObjectHideFlags: 1
