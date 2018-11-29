@@ -25,7 +25,7 @@ public class CameraController : NetworkBehaviour {
             return;
         }
 
-        if (player != null && player.GetComponent<PlayerController>() != null && player.GetComponent<PlayerController>().isLocalPlayer && player.GetComponent<PlayerController>().GetReciveInput()){
+        if (player != null && player.GetComponent<NewPlayerController>() != null && player.GetComponent<NewPlayerController>().isLocalPlayer && player.GetComponent<NewPlayerController>().GetReciveInput()){
             Move();
             Rotate();
         }
@@ -51,5 +51,10 @@ public class CameraController : NetworkBehaviour {
             player.transform.localEulerAngles = new Vector3(0, yRotation, 0);
             playerGun.transform.localEulerAngles = new Vector3(xRotation, 0, 0);
         }
+    }
+
+    public void SetPlayerVars(GameObject p, GameObject g){
+        SetPlayer(p);
+        SetPlayerGun(g);
     }
 }

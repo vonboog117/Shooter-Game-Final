@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Bullet : MonoBehaviour {
+public class Bullet : NetworkBehaviour {
 
     public int bulletSpeed;
     public int bulletDamage;
@@ -17,19 +18,22 @@ public class Bullet : MonoBehaviour {
         originTransform = originObject.transform.forward;
         rb = GetComponent<Rigidbody>();
 
+        //NetworkServer.Spawn(this.gameObject);
+
         StartCoroutine(DestroyBullet());
     }
 
     private void Update(){
-        Move();
+        CmdMove();
     }
 
-    private void Move(){
+    //[Command]
+    private void CmdMove(){
         rb.velocity = originTransform * bulletSpeed;
     }
 
     private void OnTriggerEnter(Collider other){
-        Destroy(this.gameObject);
+        NetworkServer.Destroy(this.gameObject);
     }
 
     private IEnumerator DestroyBullet(){
