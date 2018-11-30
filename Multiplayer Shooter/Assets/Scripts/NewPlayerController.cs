@@ -20,6 +20,8 @@ public class NewPlayerController : NetworkBehaviour{
     private bool isOnLadder;
     private bool recieveInput = true;
 
+    public bool GetReciveInput(){return recieveInput;}
+
     void Start(){
         characterController = GetComponent<CharacterController>();
         camera = FindObjectOfType<Camera>();
@@ -38,7 +40,7 @@ public class NewPlayerController : NetworkBehaviour{
             Move();
 
             if (Input.GetMouseButtonDown(0)){
-                CmdFire();
+                CmdSpawnBullet();
             }
         }
 
@@ -53,8 +55,12 @@ public class NewPlayerController : NetworkBehaviour{
 
             camera.GetComponent<CameraController>().SetPlayerVars(this.gameObject, playerGun);
         }
+    }
 
-       
+    private void OnGUI(){
+        if (isLocalPlayer){
+            GUI.DrawTexture(new Rect(Screen.width / 2, Screen.height / 2, 10, 10), crosshair);
+        }
     }
 
     public override void OnStartLocalPlayer(){
@@ -73,33 +79,23 @@ public class NewPlayerController : NetworkBehaviour{
 
         Vector3 movement = Vector3.zero;
 
-        if (!isOnLadder)
-        {
+        if (!isOnLadder){
             float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
             float z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
             movement = ((camera.gameObject.transform.forward * z) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0));
 
-        }
-        else
-        {
+        }else{
             float y = Input.GetAxis("Vertical") * speed * Time.deltaTime;
             float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
 
-            if (y > 0)
-            {
+            if (y > 0){
                 movement = (this.gameObject.transform.up * y) + (camera.gameObject.transform.right * x);
-            }
-            else if (y < 0)
-            {
+            }else if (y < 0){
                 movement = (camera.gameObject.transform.forward * y) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0);
-            }
-            else if (Input.GetKey(KeyCode.LeftShift))
-            {
+            }else if (Input.GetKey(KeyCode.LeftShift)){
                 movement = camera.gameObject.transform.right * x;
-            }
-            else
-            {
+            }else{
                 movement = (this.gameObject.transform.up * -9.8f * Time.deltaTime) + (camera.gameObject.transform.right * x);
             }
         }
@@ -108,33 +104,25 @@ public class NewPlayerController : NetworkBehaviour{
     }
 
     [Command]
-    void CmdFire()
-    {
+    void CmdSpawnBullet(){
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
 
-        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
+        bullet.GetComponent<Bullet>().originObject = this.gameObject;
 
         NetworkServer.Spawn(bullet);
 
-        Destroy(bullet, 2f);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Ladder")
-        {
+    private void OnTriggerEnter(Collider other){
+        if (other.gameObject.tag == "Ladder"){
             isOnLadder = true;
-        }
-        else if (other.gameObject.GetComponent<Bullet>() != null)
-        {
+        }else if (other.gameObject.GetComponent<Bullet>() != null){
             playerHealth.TakeDamage(other.gameObject.GetComponent<Bullet>().bulletDamage);
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Ladder")
-        {
+    private void OnTriggerExit(Collider other){
+        if (other.gameObject.tag == "Ladder"){
             isOnLadder = false;
         }
     }

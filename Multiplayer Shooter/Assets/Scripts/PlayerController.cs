@@ -7,12 +7,12 @@ public class PlayerController : NetworkBehaviour {
 
     public float speed;
     public float rotationSpeed;
+    public int playerNumber;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject playerGun;
     [SerializeField] private GameObject bulletSpawn;
     [SerializeField] private Texture2D crosshair;
-    [SerializeField] private NetworkManager networkManager;
 
     private CharacterController characterController;
     private Camera camera;
@@ -21,17 +21,18 @@ public class PlayerController : NetworkBehaviour {
     private bool isOnLadder;
     private bool recieveInput = true;
 
-    public bool GetReciveInput(){return recieveInput;}
+    public bool GetReciveInput() { return recieveInput; }
 
-	void Start () {
+    void Start(){
         characterController = GetComponent<CharacterController>();
         camera = FindObjectOfType<Camera>();
         camera.GetComponent<CameraController>().SetPlayer(this.gameObject);
         camera.GetComponent<CameraController>().SetPlayerGun(playerGun);
         playerHealth = GetComponent<Health>();
-	}
+    }
 
     void Update(){
+
         if (!isLocalPlayer){
             return;
         }
@@ -67,6 +68,8 @@ public class PlayerController : NetworkBehaviour {
         if (isLocalPlayer){
             Cursor.lockState = CursorLockMode.Locked;
         }
+
+        playerNumber = NetworkServer.connections.Count;
     }
 
     private void Move(){
@@ -78,21 +81,17 @@ public class PlayerController : NetworkBehaviour {
 
             movement = ((camera.gameObject.transform.forward * z) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0));
 
-        }
-        else{
+        }else{
             float y = Input.GetAxis("Vertical") * speed * Time.deltaTime;
             float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
 
             if (y > 0){
                 movement = (this.gameObject.transform.up * y) + (camera.gameObject.transform.right * x);
-            }
-            else if (y < 0){
+            }else if (y < 0){
                 movement = (camera.gameObject.transform.forward * y) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0);
-            }
-            else if (Input.GetKey(KeyCode.LeftShift)){
+            }else if (Input.GetKey(KeyCode.LeftShift)){
                 movement = camera.gameObject.transform.right * x;
-            }
-            else{
+            }else{
                 movement = (this.gameObject.transform.up * -9.8f * Time.deltaTime) + (camera.gameObject.transform.right * x);
             }
         }
@@ -101,19 +100,12 @@ public class PlayerController : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdSpawnBullet(){
-        //RpcClientShoot();
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
-        bullet.GetComponent<Bullet>().originObject = playerGun;
+    void CmdSpawnBullet(){
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
+        bullet.GetComponent<Bullet>().originObject = this.gameObject;
 
         NetworkServer.Spawn(bullet);
     }
-
-    //[ClientRpc]
-    //private void RpcClientShoot(){
-    //    GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation) as GameObject;
-    //    bullet.GetComponent<Bullet>().originObject = playerGun;
-    //}
 
     private void OnTriggerEnter(Collider other){
         if (other.gameObject.tag == "Ladder"){

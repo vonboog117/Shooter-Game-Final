@@ -11,29 +11,29 @@ public class Bullet : NetworkBehaviour {
     public float secondsBeforeDestroyed;
 
     public GameObject originObject;
+
+    [SyncVar]
     private Vector3 originTransform;
+
     private Rigidbody rb;
 
     void Start(){
         originTransform = originObject.transform.forward;
         rb = GetComponent<Rigidbody>();
 
-        //NetworkServer.Spawn(this.gameObject);
-
         StartCoroutine(DestroyBullet());
     }
 
     private void Update(){
-        CmdMove();
+        Move();
     }
 
-    //[Command]
-    private void CmdMove(){
+    private void Move(){
         rb.velocity = originTransform * bulletSpeed;
     }
 
     private void OnTriggerEnter(Collider other){
-        NetworkServer.Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
 
     private IEnumerator DestroyBullet(){

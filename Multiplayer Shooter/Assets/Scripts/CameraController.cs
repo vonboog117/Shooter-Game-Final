@@ -25,7 +25,7 @@ public class CameraController : NetworkBehaviour {
             return;
         }
 
-        if (player != null && player.GetComponent<NewPlayerController>() != null && player.GetComponent<NewPlayerController>().isLocalPlayer && player.GetComponent<NewPlayerController>().GetReciveInput()){
+        if (player != null && player.GetComponent<PlayerController>() != null && player.GetComponent<PlayerController>().isLocalPlayer && player.GetComponent<PlayerController>().GetReciveInput()){
             Move();
             Rotate();
         }
