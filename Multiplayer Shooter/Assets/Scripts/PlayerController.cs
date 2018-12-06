@@ -39,7 +39,10 @@ public class PlayerController : NetworkBehaviour {
         }
 
         if (recieveInput){
-            Move();
+            float hor = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+            float vert = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+
+            Move(hor, vert);
 
             if (Input.GetMouseButtonDown(0)){
                 CmdSpawnBullet();
@@ -73,35 +76,35 @@ public class PlayerController : NetworkBehaviour {
         playerNumber = NetworkServer.connections.Count;
     }
 
-    private void Move(){
+    public void Move(float hor, float vert){
         Vector3 movement = Vector3.zero;
 
         if (!isOnLadder){
             if (!SystemInfo.deviceModel.Contains("iPad")){
-                float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-                float z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+                //float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+                //float z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
-                movement = ((camera.gameObject.transform.forward * z) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0));
+                movement = ((camera.gameObject.transform.forward * vert) + (camera.gameObject.transform.right * hor) + new Vector3(0, -9.8f * Time.deltaTime, 0));
             }else{
 
             }
         }else{
-            float y = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-            float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+            //float y = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+            //float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
 
-            if (y > 0){
-                movement = (this.gameObject.transform.up * y) + (camera.gameObject.transform.right * x);
-            }else if (y < 0){
-                movement = (camera.gameObject.transform.forward * y) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0);
+            if (vert > 0){
+                movement = (this.gameObject.transform.up * vert) + (camera.gameObject.transform.right * hor);
+            }else if (vert < 0){
+                movement = (camera.gameObject.transform.forward * vert) + (camera.gameObject.transform.right * hor) + new Vector3(0, -9.8f * Time.deltaTime, 0);
             }else if (Input.GetKey(KeyCode.LeftShift)){
-                movement = camera.gameObject.transform.right * x;
+                movement = camera.gameObject.transform.right * hor;
             }else{
-                movement = (this.gameObject.transform.up * -9.8f * Time.deltaTime) + (camera.gameObject.transform.right * x);
+                movement = (this.gameObject.transform.up * -9.8f * Time.deltaTime) + (camera.gameObject.transform.right * hor);
             }
         }
 
         characterController.Move(movement);
-    }
+   }
 
     [Command]
     void CmdSpawnBullet(){

@@ -17,11 +17,17 @@ public class UIManager : MonoBehaviour {
 	}
 	
 	void Update () {
-        if (player.GetReciveInput()){
+        if (player.GetReciveInput() && joystick.activeSelf){
             Joystick();
         }
 	}
 
     private void Joystick(){
+        GameObject stick = gameObject.transform.Find("Stick").gameObject;
+        RectTransform stickTransform = stick.GetComponent<RectTransform>();
+
+        float x = stickTransform.localPosition.x;
+        float y = stickTransform.localPosition.y;
+        
     }
 }
