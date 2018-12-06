@@ -22,6 +22,7 @@ public class PlayerController : NetworkBehaviour {
     private bool recieveInput = true;
 
     public bool GetReciveInput() { return recieveInput; }
+    public void SetRecieveInput(bool shouldRecieveInput) { recieveInput = shouldRecieveInput; }
 
     void Start(){
         characterController = GetComponent<CharacterController>();
@@ -32,7 +33,7 @@ public class PlayerController : NetworkBehaviour {
     }
 
     void Update(){
-
+       
         if (!isLocalPlayer){
             return;
         }
@@ -76,11 +77,14 @@ public class PlayerController : NetworkBehaviour {
         Vector3 movement = Vector3.zero;
 
         if (!isOnLadder){
-            float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-            float z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+            if (!SystemInfo.deviceModel.Contains("iPad")){
+                float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+                float z = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
-            movement = ((camera.gameObject.transform.forward * z) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0));
+                movement = ((camera.gameObject.transform.forward * z) + (camera.gameObject.transform.right * x) + new Vector3(0, -9.8f * Time.deltaTime, 0));
+            }else{
 
+            }
         }else{
             float y = Input.GetAxis("Vertical") * speed * Time.deltaTime;
             float x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
@@ -102,7 +106,7 @@ public class PlayerController : NetworkBehaviour {
     [Command]
     void CmdSpawnBullet(){
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
-        bullet.GetComponent<Bullet>().originObject = this.gameObject;
+        bullet.GetComponent<Bullet>().originObject = playerGun;
 
         NetworkServer.Spawn(bullet);
     }
@@ -120,4 +124,6 @@ public class PlayerController : NetworkBehaviour {
             isOnLadder = false;
         }
     }
+
+    
 }

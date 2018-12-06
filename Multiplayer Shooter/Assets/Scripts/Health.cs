@@ -7,6 +7,8 @@ public class Health : NetworkBehaviour {
 
     [SerializeField] private int maxHealth;
 
+    private PlayerController player;
+
     [SyncVar]
     private int currentHealth;
 
@@ -16,6 +18,7 @@ public class Health : NetworkBehaviour {
 
     private void Start(){
         currentHealth = maxHealth;
+        player = GetComponent<PlayerController>();
     }
 
     public void TakeDamage(int damage){
@@ -44,6 +47,6 @@ public class Health : NetworkBehaviour {
     }
 
     private void OnHeathZero(){
-        Debug.Log("Player Dead");
+        player.SetRecieveInput(false);   
     }
 }

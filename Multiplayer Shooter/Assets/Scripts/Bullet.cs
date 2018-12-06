@@ -18,7 +18,10 @@ public class Bullet : NetworkBehaviour {
     private Rigidbody rb;
 
     void Start(){
-        originTransform = originObject.transform.forward;
+        if (isServer){
+            originTransform = originObject.transform.forward;
+        }
+
         rb = GetComponent<Rigidbody>();
 
         StartCoroutine(DestroyBullet());
