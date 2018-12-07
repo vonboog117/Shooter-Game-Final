@@ -17,6 +17,7 @@ public class PlayerController : NetworkBehaviour {
     private CharacterController characterController;
     private Camera camera;
     private Health playerHealth;
+    private Joystick joystick;
 
     private bool isOnLadder;
     private bool recieveInput = true;
@@ -26,10 +27,14 @@ public class PlayerController : NetworkBehaviour {
 
     void Start(){
         characterController = GetComponent<CharacterController>();
+        playerHealth = GetComponent<Health>();
+
         camera = FindObjectOfType<Camera>();
+        joystick = FindObjectOfType<Joystick>();
+
         camera.GetComponent<CameraController>().SetPlayer(this.gameObject);
         camera.GetComponent<CameraController>().SetPlayerGun(playerGun);
-        playerHealth = GetComponent<Health>();
+        joystick.player = this;
     }
 
     void Update(){
