@@ -11,6 +11,8 @@ public class Joystick : MonoBehaviour {
 
     public PlayerController player;
 
+    private int trackedTouchID = -1;
+
     private bool touchBeganOnStick = false;
 
     void Start(){
@@ -28,17 +30,12 @@ public class Joystick : MonoBehaviour {
 
     private void JoystickMove(){
         Touch[] touches = Input.touches;
-        Touch touch = new Touch();
 
         if (!SystemInfo.deviceModel.Contains("iPad")){
-            if (touches.Length != 0){
-                for (int i = 0; i < touches.Length; i++){
-                    //if (touches[i].phase == TouchPhase.Began || touchBeganOnStick)
-                    if ((touches[i].position.x < joystick.transform.position.x + 50 && touches[i].position.x > joystick.transform.position.x - 50) && (touches[i].position.y < joystick.transform.position.y + 50 && touches[i].position.y > joystick.transform.position.y - 50)){
-                        stick.transform.position = touches[i].position;
-                    }
-                    //}
-                }
+            if (trackedTouchID == -1){
+                FindTouchOnJoystick(touches);
+            }else{
+                MoveStick(touches);
             }
         }else{
             Debug.Log(Input.mousePosition);
@@ -53,5 +50,49 @@ public class Joystick : MonoBehaviour {
         float vert = y / 50;
 
         player.Move(hor, vert);
+    }
+
+    private void FindTouchOnJoystick(Touch[] touches){
+        if (touches.Length != 0){
+            for (int i = 0; i < touches.Length; i++){
+                if ((touches[i].position.x < joystick.transform.position.x + 50 && touches[i].position.x > joystick.transform.position.x - 50) && (touches[i].position.y < joystick.transform.position.y + 50 && touches[i].position.y > joystick.transform.position.y - 50)){
+                    if (touches[i].phase == TouchPhase.Began){
+                        trackedTouchID = touches[i].fingerId;
+                    }
+                }
+            }
+        }
+    }
+
+    private void MoveStick(Touch[] touches)
+    {
+        Touch trackedTouch = new Touch();
+
+        for (int i = 0; i < touches.Length; i++)
+        {
+            if (touches[i].fingerId == trackedTouchID)
+            {
+                trackedTouch = touches[i];
+            }
+        }
+
+        int config = 0;
+
+        if ((trackedTouch.position.x < joystick.transform.position.x + 50 && trackedTouch.position.x > joystick.transform.position.x - 50)){
+
+        }else if(trackedTouch.position.x > joystick.transform.position.x + 50){
+            config = 1;
+        }else if (trackedTouch.position.x < joystick.transform.position.x - 50){
+            config = 2;
+        }
+
+        if ((trackedTouch.position.y < joystick.transform.position.y + 50 && trackedTouch.position.y > joystick.transform.position.y - 50)){
+            yOn = true;
+        }else{
+            yOn = false;
+        }
+
+       
+
     }
 }
