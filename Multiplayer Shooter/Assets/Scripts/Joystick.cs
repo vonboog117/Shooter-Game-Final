@@ -13,7 +13,7 @@ public class Joystick : MonoBehaviour {
 
     private int trackedTouchID = -1;
 
-    private bool touchBeganOnStick = false;
+    private bool trackMousePosition = false;
 
     void Start(){
         if (!SystemInfo.deviceModel.Contains("iPad")){
@@ -35,10 +35,16 @@ public class Joystick : MonoBehaviour {
             if (trackedTouchID == -1){
                 FindTouchOnJoystick(touches);
             }else{
-                MoveStick(touches);
+                MoveStickIOS(touches);
             }
         }else{
-            Debug.Log(Input.mousePosition);
+            if (!trackMousePosition){
+                if (Input.GetMouseButton(0) && GetIsOnJoystick(Input.mousePosition)){
+                    trackMousePosition = true;
+                }
+            }else{
+                MoveStick();
+            }
         }
 
         RectTransform stickTransform = stick.GetComponent<RectTransform>();
@@ -55,7 +61,7 @@ public class Joystick : MonoBehaviour {
     private void FindTouchOnJoystick(Touch[] touches){
         if (touches.Length != 0){
             for (int i = 0; i < touches.Length; i++){
-                if ((touches[i].position.x < joystick.transform.position.x + 50 && touches[i].position.x > joystick.transform.position.x - 50) && (touches[i].position.y < joystick.transform.position.y + 50 && touches[i].position.y > joystick.transform.position.y - 50)){
+                if (GetIsOnJoystick(touches[i].position)){
                     if (touches[i].phase == TouchPhase.Began){
                         trackedTouchID = touches[i].fingerId;
                     }
@@ -64,35 +70,89 @@ public class Joystick : MonoBehaviour {
         }
     }
 
-    private void MoveStick(Touch[] touches)
-    {
+    private void MoveStickIOS(Touch[] touches){
         Touch trackedTouch = new Touch();
 
-        for (int i = 0; i < touches.Length; i++)
-        {
-            if (touches[i].fingerId == trackedTouchID)
-            {
+        for (int i = 0; i < touches.Length; i++){
+            if (touches[i].fingerId == trackedTouchID){
                 trackedTouch = touches[i];
             }
         }
 
-        int config = 0;
-
-        if ((trackedTouch.position.x < joystick.transform.position.x + 50 && trackedTouch.position.x > joystick.transform.position.x - 50)){
-
-        }else if(trackedTouch.position.x > joystick.transform.position.x + 50){
-            config = 1;
-        }else if (trackedTouch.position.x < joystick.transform.position.x - 50){
-            config = 2;
+        if (trackedTouch.fingerId != trackedTouchID){
+            trackedTouchID = -1;
+            trackedTouch.position = new Vector3(joystick.transform.position.x, joystick.transform.position.y);
         }
 
-        if ((trackedTouch.position.y < joystick.transform.position.y + 50 && trackedTouch.position.y > joystick.transform.position.y - 50)){
-            yOn = true;
+        if (trackedTouch.position.x < joystick.transform.position.x - 50){
+            if (trackedTouch.position.y < joystick.transform.position.y - 50){
+                stick.transform.position = new Vector3(joystick.transform.position.x - 50, joystick.transform.position.y - 50, 0);
+            }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
+                stick.transform.position = new Vector3(joystick.transform.position.x - 50, joystick.transform.position.y + 50, 0);
+            }else{
+                stick.transform.position = new Vector3(joystick.transform.position.x - 50, trackedTouch.position.y, 0);
+            }
+        }
+        else if (trackedTouch.position.x > joystick.transform.position.x + 50){
+            if (trackedTouch.position.y < joystick.transform.position.y - 50){
+                stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y - 50, 0);
+            }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
+                stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y + 50, 0);
+            }else{
+                stick.transform.position = new Vector3(joystick.transform.position.x + 50, trackedTouch.position.y, 0);
+            }
+        }
+        else{
+            if (trackedTouch.position.y < joystick.transform.position.y - 50){
+                stick.transform.position = new Vector3(trackedTouch.position.x, joystick.transform.position.y - 50, 0);
+            }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
+                stick.transform.position = new Vector3(trackedTouch.position.x, joystick.transform.position.y + 50, 0);
+            }else{
+                stick.transform.position = new Vector3(trackedTouch.position.x, trackedTouch.position.y, 0);
+            }
+        }
+    }
+
+    private void MoveStick(){
+        if (Input.mousePosition.x < joystick.transform.position.x - 50){
+            if (Input.mousePosition.y < joystick.transform.position.y - 50){
+                stick.transform.position = new Vector3(joystick.transform.position.x - 50, joystick.transform.position.y - 50, 0);
+            }else if (Input.mousePosition.y > joystick.transform.position.y + 50){
+                stick.transform.position = new Vector3(joystick.transform.position.x - 50, joystick.transform.position.y + 50, 0);
+            }else{
+                stick.transform.position = new Vector3(joystick.transform.position.x - 50, Input.mousePosition.y, 0);
+            }
+        }else if (Input.mousePosition.x > joystick.transform.position.x + 50){
+            if (Input.mousePosition.y < joystick.transform.position.y - 50){
+                stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y - 50, 0);
+            }else if (Input.mousePosition.y > joystick.transform.position.y + 50){
+                stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y - 50, 0);
+            }else{
+                stick.transform.position = new Vector3(joystick.transform.position.x + 50, Input.mousePosition.y, 0);
+            }
         }else{
-            yOn = false;
+            if (Input.mousePosition.y < joystick.transform.position.y - 50){
+                stick.transform.position = new Vector3(Input.mousePosition.x, joystick.transform.position.y - 50, 0);
+            }else if (Input.mousePosition.y > joystick.transform.position.y + 50){
+                stick.transform.position = new Vector3(Input.mousePosition.x, joystick.transform.position.y + 50, 0);
+            }else{
+                stick.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            }
         }
 
-       
+        if (!GetIsOnJoystick(Input.mousePosition)){
+            trackMousePosition = false;
+            stick.transform.position = new Vector3(joystick.transform.position.x, joystick.transform.position.y, 0);
+        }
+    }
 
+    private bool GetIsOnJoystick(Vector3 pos){
+        bool isOnJoystick = false;
+
+        if ((pos.x > joystick.transform.position.x - 50 && pos.x < joystick.transform.position.x + 50) && (pos.y > joystick.transform.position.y - 50 && pos.y < joystick.transform.position.y + 50)){
+            isOnJoystick = true;
+        }
+
+        return isOnJoystick;
     }
 }
