@@ -23,15 +23,15 @@ public class Joystick : MonoBehaviour {
     }
 
     void Update(){
-        if (/*player.GetReciveInput() &&*/ joystick.activeSelf && player != null){
+        if (/*player.GetReciveInput() && */joystick.activeSelf && player != null){
             JoystickMove();
         }
+
     }
 
     private void JoystickMove(){
         Touch[] touches = Input.touches;
-
-        if (!SystemInfo.deviceModel.Contains("iPad")){
+        if (SystemInfo.deviceModel.Contains("iPad")){
             if (trackedTouchID == -1){
                 FindTouchOnJoystick(touches);
             }else{
@@ -54,6 +54,7 @@ public class Joystick : MonoBehaviour {
 
         float hor = x / 50;
         float vert = y / 50;
+
 
         player.Move(hor, vert);
     }
@@ -126,7 +127,7 @@ public class Joystick : MonoBehaviour {
             if (Input.mousePosition.y < joystick.transform.position.y - 50){
                 stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y - 50, 0);
             }else if (Input.mousePosition.y > joystick.transform.position.y + 50){
-                stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y - 50, 0);
+                stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y + 50, 0);
             }else{
                 stick.transform.position = new Vector3(joystick.transform.position.x + 50, Input.mousePosition.y, 0);
             }
@@ -140,7 +141,7 @@ public class Joystick : MonoBehaviour {
             }
         }
 
-        if (!GetIsOnJoystick(Input.mousePosition)){
+        if (Input.GetMouseButtonUp(0)){
             trackMousePosition = false;
             stick.transform.position = new Vector3(joystick.transform.position.x, joystick.transform.position.y, 0);
         }

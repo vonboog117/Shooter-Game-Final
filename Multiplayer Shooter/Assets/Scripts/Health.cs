@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class Health : NetworkBehaviour {
-
     [SerializeField] private int maxHealth;
 
     private PlayerController player;
