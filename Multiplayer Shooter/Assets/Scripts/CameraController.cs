@@ -19,17 +19,43 @@ public class CameraController : NetworkBehaviour {
     public void SetPlayer(GameObject p){player = p;}
     public void SetPlayerGun(GameObject g){playerGun = g;}
 
-    private void LateUpdate()
+
+
+    private Vector3 firstPoint;
+    private Vector3 secondPoint;
+
+    private float xAngle;
+    private float yAngle;
+    private float xAngleTemp;
+    private float yAngleTemp;
+
+    private int trackedTouchID = -1;
+
+    private void Start()
     {
+        //Initialization our angles of camera
+        xAngle = 0f;
+        yAngle = 0f;
+        this.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0f);
+    }
+
+    private void LateUpdate(){
         if (!NetworkClient.active){
             return;
         }
 
         if (player != null && player.GetComponent<PlayerController>() != null && player.GetComponent<PlayerController>().isLocalPlayer && player.GetComponent<PlayerController>().GetReciveInput()){
             Move();
-            Rotate();
-        }
-       
+            if (!SystemInfo.deviceModel.Contains("iPad")){
+                Rotate();
+            }else{
+                if (trackedTouchID == -1){
+                    FindTouchToTrack();
+                }else{
+                    RotateIOS();
+                }
+            }
+        } 
     }
 
     void Move(){
@@ -50,6 +76,43 @@ public class CameraController : NetworkBehaviour {
         if (player != null && playerGun != null){
             player.transform.localEulerAngles = new Vector3(0, yRotation, 0);
             playerGun.transform.localEulerAngles = new Vector3(xRotation, 0, 0);
+        }
+    }
+
+    void RotateIOS(){
+        Touch touch = new Touch();
+
+        for (int i = 0; i < Input.touches.Length; i++){
+            if (Input.touches[i].fingerId == trackedTouchID){
+                touch = Input.touches[i];
+            }
+        }
+
+        if (touch.phase == TouchPhase.Began){
+            firstPoint = touch.position;
+            xAngleTemp = xAngle;
+            yAngleTemp = yAngle;
+        }
+        if (touch.phase == TouchPhase.Moved){
+            secondPoint = touch.position;
+
+            xAngle = xAngleTemp + (secondPoint.x - firstPoint.x) * 180 / Screen.width;
+            yAngle = yAngleTemp - (secondPoint.y - firstPoint.y) * 90 / Screen.height;
+
+            yAngle = Mathf.Clamp(yAngle, minVertRotation, maxVertRotation);
+
+            gameObject.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0);
+        }
+
+    }
+
+    private void FindTouchToTrack(){
+        if (Input.touchCount > 0){
+            for (int i = 0; i < Input.touches.Length; i++){
+                if (Input.touches[i].fingerId != player.GetComponent<PlayerController>().GetJoystickTrackedTouchID()){
+                    trackedTouchID = Input.touches[i].fingerId;
+                }
+            }
         }
     }
 

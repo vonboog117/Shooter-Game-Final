@@ -24,6 +24,7 @@ public class PlayerController : NetworkBehaviour {
 
     public bool GetReciveInput() { return recieveInput; }
     public void SetRecieveInput(bool shouldRecieveInput) { recieveInput = shouldRecieveInput; }
+    public int GetJoystickTrackedTouchID() { return joystick.GetTrackedID(); }
 
     void Start(){
         characterController = GetComponent<CharacterController>();
@@ -111,7 +112,7 @@ public class PlayerController : NetworkBehaviour {
    }
 
     [Command]
-    void CmdSpawnBullet(){
+    public void CmdSpawnBullet(){
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
         bullet.GetComponent<Bullet>().originObject = playerGun;
 

@@ -15,15 +15,17 @@ public class Joystick : MonoBehaviour {
 
     private bool trackMousePosition = false;
 
+    public int GetTrackedID() { return trackedTouchID; }
+
     void Start(){
         if (!SystemInfo.deviceModel.Contains("iPad")){
-            //joystick.SetActive(false);
-            //fireButton.SetActive(false);
+            joystick.SetActive(false);
+            fireButton.SetActive(false);
         }
     }
 
     void Update(){
-        if (/*player.GetReciveInput() && */joystick.activeSelf && player != null){
+        if (player.GetReciveInput() && joystick.activeSelf && player != null){
             JoystickMove();
         }
 
@@ -47,16 +49,18 @@ public class Joystick : MonoBehaviour {
             }
         }
 
-        RectTransform stickTransform = stick.GetComponent<RectTransform>();
+        if (trackMousePosition || trackedTouchID != -1){
+            RectTransform stickTransform = stick.GetComponent<RectTransform>();
 
-        float x = stickTransform.localPosition.x;
-        float y = stickTransform.localPosition.y;
+            float x = stickTransform.localPosition.x;
+            float y = stickTransform.localPosition.y;
 
-        float hor = x / 50;
-        float vert = y / 50;
+            float hor = x / 50;
+            float vert = y / 50;
 
 
-        player.Move(hor, vert);
+            player.Move(hor, vert);
+        }
     }
 
     private void FindTouchOnJoystick(Touch[] touches){
