@@ -79,6 +79,7 @@ public class PlayerController : NetworkBehaviour {
             Cursor.lockState = CursorLockMode.Locked;
         }
 
+        //joystick.ipText.text = NetworkManager.singleton.networkAddress;
         playerNumber = NetworkServer.connections.Count;
     }
 

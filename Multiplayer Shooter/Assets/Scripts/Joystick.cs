@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Joystick : MonoBehaviour {
 
-    [SerializeField] GameObject joystick;
-    [SerializeField] GameObject stick;
-    [SerializeField] GameObject fireButton;
+    [SerializeField] private GameObject joystick;
+    [SerializeField] private GameObject stick;
+    [SerializeField] private GameObject fireButton;
+    [SerializeField] public Text ipText;
 
     public PlayerController player;
 
