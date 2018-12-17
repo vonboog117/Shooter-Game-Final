@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class PlayerController : NetworkBehaviour {
 
     public float speed;
     public float rotationSpeed;
     public int playerNumber;
+    public Text cameraFingerID;
 
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject playerGun;

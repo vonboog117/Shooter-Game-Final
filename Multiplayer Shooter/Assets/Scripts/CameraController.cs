@@ -114,6 +114,8 @@ public class CameraController : NetworkBehaviour {
                 }
             }
         }
+
+        player.GetComponent<PlayerController>().cameraFingerID.text = "Camera ID: " + trackedTouchID;
     }
 
     public void SetPlayerVars(GameObject p, GameObject g){

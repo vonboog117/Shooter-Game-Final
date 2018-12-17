@@ -9,9 +9,10 @@ public class Joystick : MonoBehaviour {
     [SerializeField] private GameObject joystick;
     [SerializeField] private GameObject stick;
     [SerializeField] private GameObject fireButton;
-    [SerializeField] public Text ipText;
 
     public PlayerController player;
+    public Text fingerID;
+    //public Text joystickConfig;
 
     private int trackedTouchID = -1;
 
@@ -21,13 +22,13 @@ public class Joystick : MonoBehaviour {
 
     void Start(){
         if (!SystemInfo.deviceModel.Contains("iPad")){
-            joystick.SetActive(false);
-            fireButton.SetActive(false);
+            //joystick.SetActive(false);
+            //fireButton.SetActive(false);
         }
     }
 
     void Update(){
-        if (player.GetReciveInput() && joystick.activeSelf && player != null){
+        if (/*player.GetReciveInput() &&*/ joystick.activeSelf && player != null){
             JoystickMove();
         }
 
@@ -75,6 +76,8 @@ public class Joystick : MonoBehaviour {
                 }
             }
         }
+
+        fingerID.text = "Joystick ID: " + trackedTouchID;
     }
 
     private void MoveStickIOS(Touch[] touches){
