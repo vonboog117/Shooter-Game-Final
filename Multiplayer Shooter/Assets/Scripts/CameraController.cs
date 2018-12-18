@@ -85,25 +85,27 @@ public class CameraController : NetworkBehaviour {
         for (int i = 0; i < Input.touches.Length; i++){
             if (Input.touches[i].fingerId == trackedTouchID){
                 touch = Input.touches[i];
+            }else{
+                trackedTouchID = -1;
             }
         }
 
-        if (touch.phase == TouchPhase.Began){
-            firstPoint = touch.position;
-            xAngleTemp = xAngle;
-            yAngleTemp = yAngle;
+        if (trackedTouchID != -1){
+            if (touch.phase == TouchPhase.Began){
+                firstPoint = touch.position;
+                xAngleTemp = xAngle;
+                yAngleTemp = yAngle;
+            }if (touch.phase == TouchPhase.Moved){
+                secondPoint = touch.position;
+
+                xAngle = xAngleTemp + (secondPoint.x - firstPoint.x) * 180 / Screen.width;
+                yAngle = yAngleTemp - (secondPoint.y - firstPoint.y) * 90 / Screen.height;
+
+                yAngle = Mathf.Clamp(yAngle, minVertRotation, maxVertRotation);
+
+                gameObject.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0);
+            }
         }
-        if (touch.phase == TouchPhase.Moved){
-            secondPoint = touch.position;
-
-            xAngle = xAngleTemp + (secondPoint.x - firstPoint.x) * 180 / Screen.width;
-            yAngle = yAngleTemp - (secondPoint.y - firstPoint.y) * 90 / Screen.height;
-
-            yAngle = Mathf.Clamp(yAngle, minVertRotation, maxVertRotation);
-
-            gameObject.transform.rotation = Quaternion.Euler(yAngle, xAngle, 0);
-        }
-
     }
 
     private void FindTouchToTrack(){

@@ -25,6 +25,9 @@ public class Joystick : MonoBehaviour {
             //joystick.SetActive(false);
             //fireButton.SetActive(false);
         }
+        Debug.Log(Screen.width + " " + Screen.height);
+
+        joystick.GetComponent<RectTransform>().localScale = Vector3.one * (Screen.height / 10);
     }
 
     void Update(){
@@ -86,39 +89,38 @@ public class Joystick : MonoBehaviour {
         for (int i = 0; i < touches.Length; i++){
             if (touches[i].fingerId == trackedTouchID){
                 trackedTouch = touches[i];
+            }else{
+                trackedTouchID = -1;
             }
         }
 
-        if (trackedTouch.fingerId != trackedTouchID){
-            trackedTouchID = -1;
+        if (trackedTouchID == -1){
             trackedTouch.position = new Vector3(joystick.transform.position.x, joystick.transform.position.y);
-        }
-
-        if (trackedTouch.position.x < joystick.transform.position.x - 50){
-            if (trackedTouch.position.y < joystick.transform.position.y - 50){
-                stick.transform.position = new Vector3(joystick.transform.position.x - 50, joystick.transform.position.y - 50, 0);
-            }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
-                stick.transform.position = new Vector3(joystick.transform.position.x - 50, joystick.transform.position.y + 50, 0);
+        }else{
+            if (trackedTouch.position.x < joystick.transform.position.x - 50){
+                if (trackedTouch.position.y < joystick.transform.position.y - 50){
+                    stick.transform.position = new Vector3(joystick.transform.position.x - 50, joystick.transform.position.y - 50, 0);
+                }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
+                    stick.transform.position = new Vector3(joystick.transform.position.x - 50, joystick.transform.position.y + 50, 0);
+                }else{
+                    stick.transform.position = new Vector3(joystick.transform.position.x - 50, trackedTouch.position.y, 0);
+                }
+            }else if (trackedTouch.position.x > joystick.transform.position.x + 50){
+                if (trackedTouch.position.y < joystick.transform.position.y - 50){
+                    stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y - 50, 0);
+                }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
+                    stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y + 50, 0);
+                }else{
+                    stick.transform.position = new Vector3(joystick.transform.position.x + 50, trackedTouch.position.y, 0);
+                }
             }else{
-                stick.transform.position = new Vector3(joystick.transform.position.x - 50, trackedTouch.position.y, 0);
-            }
-        }
-        else if (trackedTouch.position.x > joystick.transform.position.x + 50){
-            if (trackedTouch.position.y < joystick.transform.position.y - 50){
-                stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y - 50, 0);
-            }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
-                stick.transform.position = new Vector3(joystick.transform.position.x + 50, joystick.transform.position.y + 50, 0);
-            }else{
-                stick.transform.position = new Vector3(joystick.transform.position.x + 50, trackedTouch.position.y, 0);
-            }
-        }
-        else{
-            if (trackedTouch.position.y < joystick.transform.position.y - 50){
-                stick.transform.position = new Vector3(trackedTouch.position.x, joystick.transform.position.y - 50, 0);
-            }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
-                stick.transform.position = new Vector3(trackedTouch.position.x, joystick.transform.position.y + 50, 0);
-            }else{
-                stick.transform.position = new Vector3(trackedTouch.position.x, trackedTouch.position.y, 0);
+                if (trackedTouch.position.y < joystick.transform.position.y - 50){
+                    stick.transform.position = new Vector3(trackedTouch.position.x, joystick.transform.position.y - 50, 0);
+                }else if (trackedTouch.position.y > joystick.transform.position.y + 50){
+                    stick.transform.position = new Vector3(trackedTouch.position.x, joystick.transform.position.y + 50, 0);
+                }else{
+                    stick.transform.position = new Vector3(trackedTouch.position.x, trackedTouch.position.y, 0);
+                }
             }
         }
     }
