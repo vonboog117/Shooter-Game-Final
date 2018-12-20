@@ -55,7 +55,9 @@ public class CameraController : NetworkBehaviour {
                     RotateIOS();
                 }
             }
-        } 
+
+            player.GetComponent<PlayerController>().cameraFingerID.text = "Camera ID: " + trackedTouchID;
+        }
     }
 
     void Move(){
@@ -116,8 +118,6 @@ public class CameraController : NetworkBehaviour {
                 }
             }
         }
-
-        player.GetComponent<PlayerController>().cameraFingerID.text = "Camera ID: " + trackedTouchID;
     }
 
     public void SetPlayerVars(GameObject p, GameObject g){
