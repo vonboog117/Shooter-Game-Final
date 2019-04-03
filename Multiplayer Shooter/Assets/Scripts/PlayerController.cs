@@ -19,6 +19,7 @@ public class PlayerController : NetworkBehaviour {
     private CharacterController characterController;
     private Camera camera;
     private Health playerHealth;
+    private Gun newPlayerGun;
     private Joystick joystick;
 
     private bool isOnLadder;
@@ -31,6 +32,7 @@ public class PlayerController : NetworkBehaviour {
     void Start(){
         characterController = GetComponent<CharacterController>();
         playerHealth = GetComponent<Health>();
+        newPlayerGun = GetComponentInChildren<Gun>();
 
         camera = FindObjectOfType<Camera>();
         joystick = FindObjectOfType<Joystick>();
@@ -53,7 +55,8 @@ public class PlayerController : NetworkBehaviour {
             Move(hor, vert);
 
             if (Input.GetMouseButtonDown(0)){
-                CmdSpawnBullet();
+                //CmdSpawnBullet();
+                newPlayerGun.Fire(camera);
             }
         }
 

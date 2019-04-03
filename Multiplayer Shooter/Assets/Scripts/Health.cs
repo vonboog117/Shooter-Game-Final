@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class Health : NetworkBehaviour {
+
+    public bool isTarget;
+
     [SerializeField] private int maxHealth;
 
     private PlayerController player;
@@ -21,7 +24,10 @@ public class Health : NetworkBehaviour {
     }
 
     public void TakeDamage(int damage){
-        if (!isServer){
+        if (!isServer){return;}
+
+        if (isTarget){
+            Debug.Log(damage);
             return;
         }
 
