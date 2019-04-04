@@ -31,7 +31,7 @@ public class Gun : MonoBehaviour{
         Vector3 rayOrigin = playerCamera.ViewportToWorldPoint(new Vector3(.5f, .5f, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(rayOrigin, playerCamera.transform.forward, out hit, maxRange)){
+        if (Physics.Raycast(rayOrigin, playerCamera.transform.forward, out hit, maxRange, 3)){
             shotLine.SetPosition(1, hit.point);
             GameObject hitGameObject = hit.collider.gameObject;
             if (hitGameObject.GetComponent<Health>()){
@@ -53,10 +53,10 @@ public class Gun : MonoBehaviour{
 
         float distancePercent = distance / maxRange;
         Color damageColor = damageFalloff.Evaluate(distancePercent);
-        float damagePercent = damageColor.r / 255;
+        float damagePercent = damageColor.r / 1;
         damage = (int)(maxDamage * damagePercent);
 
-        return damage;
+        return damage + 1;
     }
 
     public IEnumerator Reload(){

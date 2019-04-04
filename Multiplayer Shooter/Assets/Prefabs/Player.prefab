@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 114707668661313062}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 33366761044388470}
   - component: {fileID: 23906731173230716}
   - component: {fileID: 65555691635050156}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Visor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -688,11 +688,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDamage: 25
-  maxRange: 25
-  fireRate: 2
+  maxRange: 40
+  fireRate: 5
   clipAmmo: 9
   reloadTime: 1
-  shotDuration: 0.25
+  shotDuration: 0.08
   damageFalloff:
     serializedVersion: 2
     key0: {r: 1, g: 0, b: 0, a: 1}
@@ -955,9 +955,9 @@ LineRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1220554765454020}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 0
   m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -988,7 +988,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:

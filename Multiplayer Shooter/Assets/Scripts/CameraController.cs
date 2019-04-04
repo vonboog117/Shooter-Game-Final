@@ -19,8 +19,6 @@ public class CameraController : NetworkBehaviour {
     public void SetPlayer(GameObject p){player = p;}
     public void SetPlayerGun(GameObject g){playerGun = g;}
 
-
-
     private Vector3 firstPoint;
     private Vector3 secondPoint;
 
