@@ -8,7 +8,21 @@ public class Hazard : MonoBehaviour {
     public float damageRepeat;
     public bool canKill;
 
+    private bool canDamage = true;
+
     private void OnTriggerStay(Collider other){
-        Debug.Log("Ahhhhh Lava!");
+        Health otherHealth = other.GetComponent<Health>();
+        if (otherHealth != null){
+            StartCoroutine(DoDamage(otherHealth));
+        }
+    }
+
+    private IEnumerator DoDamage(Health damagedObject){
+        if (canDamage){
+            damagedObject.TakeDamage(damage);
+            canDamage = false;
+            yield return new WaitForSeconds(damageRepeat);
+            canDamage = true;
+        }
     }
 }

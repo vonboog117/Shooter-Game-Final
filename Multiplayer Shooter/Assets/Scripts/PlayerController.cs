@@ -15,24 +15,32 @@ public class PlayerController : NetworkBehaviour {
     [SerializeField] private GameObject playerGun;
     [SerializeField] private GameObject bulletSpawn;
     [SerializeField] private Texture2D crosshair;
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Text healthText;
+    [SerializeField] private Text ammoText;
 
     private CharacterController characterController;
     private Camera camera;
     private Health playerHealth;
     private Gun newPlayerGun;
+    private PlayerUIManager playerUIManager;
     private Joystick joystick;
 
     private bool isOnLadder;
     private bool recieveInput = true;
 
     public bool GetReciveInput() { return recieveInput; }
-    public void SetRecieveInput(bool shouldRecieveInput) { recieveInput = shouldRecieveInput; }
     public int GetJoystickTrackedTouchID() { return joystick.GetTrackedID(); }
+    public PlayerUIManager GetUIManager() { return playerUIManager; }
+
+    public void SetRecieveInput(bool shouldRecieveInput) { recieveInput = shouldRecieveInput; }
 
     void Start(){
         characterController = GetComponent<CharacterController>();
         playerHealth = GetComponent<Health>();
         newPlayerGun = GetComponentInChildren<Gun>();
+
+        playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, newPlayerGun);
 
         camera = FindObjectOfType<Camera>();
         joystick = FindObjectOfType<Joystick>();
@@ -54,7 +62,7 @@ public class PlayerController : NetworkBehaviour {
 
             Move(hor, vert);
 
-            if (Input.GetMouseButtonDown(0)){
+            if (Input.GetMouseButton(0)){
                 //CmdSpawnBullet();
                 newPlayerGun.Fire(camera);
             }

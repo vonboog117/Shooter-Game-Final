@@ -8,6 +8,7 @@ public class Gun : MonoBehaviour{
     public int maxDamage;
     public float maxRange;
     public float fireRate;
+    public float maxClipAmmo;
     public float clipAmmo;
     //public float ammo;
     public float reloadTime;
@@ -45,7 +46,13 @@ public class Gun : MonoBehaviour{
         StartCoroutine(ShowShot());
 
         canFire = false;
-        StartCoroutine(WaitToFire(1 / fireRate));
+
+        clipAmmo--;
+        if (clipAmmo <= 0){
+            StartCoroutine(Reload());
+        }else{
+            StartCoroutine(WaitToFire(1 / fireRate));
+        } 
     }
 
     private int CalculateDamage(float distance){
@@ -60,9 +67,9 @@ public class Gun : MonoBehaviour{
     }
 
     public IEnumerator Reload(){
-        canFire = false;
         yield return new WaitForSeconds(reloadTime);
-        canFire = false;
+        clipAmmo = maxClipAmmo;
+        canFire = true;
     }
 
     private IEnumerator WaitToFire(float timeBetweenShots){
