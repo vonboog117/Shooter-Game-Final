@@ -35,13 +35,14 @@ public class Health : NetworkBehaviour {
         }
 
         currentHealth -= damage;
-        playerUI.ChangeHealthUI(currentHealth);
-        Debug.Log(currentHealth);
 
         if (currentHealth <= 0){
             currentHealth = 0;
             OnHeathZero();
         }
+
+        playerUI.ChangeHealthUI(currentHealth);
+
     }
 
     public void Heal(int health){

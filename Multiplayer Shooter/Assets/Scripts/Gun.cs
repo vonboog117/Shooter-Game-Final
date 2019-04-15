@@ -6,27 +6,33 @@ using UnityEngine;
 public class Gun : MonoBehaviour{
 
     public int maxDamage;
+    public int maxClipAmmo;
     public float maxRange;
     public float fireRate;
-    public float maxClipAmmo;
-    public float clipAmmo;
-    //public float ammo;
     public float reloadTime;
     public float shotDuration;
     public Gradient damageFalloff;
 
     private bool canFire;
+    private bool reloading;
+    private int clipAmmo;
     private LineRenderer shotLine;
+    private PlayerController playerController;
+    private PlayerUIManager playerUIManager;
 
     void Start(){
         shotLine = GetComponent<LineRenderer>();
+        playerController = GetComponentInParent<PlayerController>();
+        playerUIManager = playerController.GetUIManager();
+        playerUIManager.ChangeGunAmmoUI(maxClipAmmo, maxClipAmmo);
 
         canFire = true;
+        reloading = false;
+        clipAmmo = maxClipAmmo;
     }
 
     public void Fire(Camera playerCamera){
         if (!canFire){return;}
-
         shotLine.SetPosition(0, gameObject.transform.position);
 
         Vector3 rayOrigin = playerCamera.ViewportToWorldPoint(new Vector3(.5f, .5f, 0));
@@ -48,11 +54,20 @@ public class Gun : MonoBehaviour{
         canFire = false;
 
         clipAmmo--;
+        playerUIManager.ChangeGunAmmoUI(clipAmmo, maxClipAmmo);
         if (clipAmmo <= 0){
-            StartCoroutine(Reload());
+            StartCoroutine(ReloadCo());
         }else{
             StartCoroutine(WaitToFire(1 / fireRate));
         } 
+    }
+
+    public void Reload(){
+        if (clipAmmo != maxClipAmmo){
+            canFire = false;
+            reloading = true;
+            StartCoroutine(ReloadCo());
+        }
     }
 
     private int CalculateDamage(float distance){
@@ -66,15 +81,19 @@ public class Gun : MonoBehaviour{
         return damage + 1;
     }
 
-    public IEnumerator Reload(){
+    public IEnumerator ReloadCo(){
         yield return new WaitForSeconds(reloadTime);
         clipAmmo = maxClipAmmo;
+        playerUIManager.ChangeGunAmmoUI(clipAmmo, maxClipAmmo);
         canFire = true;
+        reloading = false;
     }
 
     private IEnumerator WaitToFire(float timeBetweenShots){
         yield return new WaitForSeconds(timeBetweenShots);
-        canFire = true;
+        if (!reloading){
+            canFire = true;
+        }
     }
 
     private IEnumerator ShowShot(){

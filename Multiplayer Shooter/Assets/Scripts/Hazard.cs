@@ -13,6 +13,7 @@ public class Hazard : MonoBehaviour {
     private void OnTriggerStay(Collider other){
         Health otherHealth = other.GetComponent<Health>();
         if (otherHealth != null){
+            if (!canKill && otherHealth.GetCurrentHealth() <= 5) { return; }
             StartCoroutine(DoDamage(otherHealth));
         }
     }

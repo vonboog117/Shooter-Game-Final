@@ -8,12 +8,14 @@ public class PlayerUIManager : MonoBehaviour {
     private Slider healthSlider;
     private Text healthText;
     private Text ammoText;
+    private Text gunText;
     private Gun playerGun;
 
-    public PlayerUIManager(Slider hs, Text ht, Text at, Gun pg){
+    public PlayerUIManager(Slider hs, Text ht, Text at, Text gt, Gun pg){
         healthSlider = hs;
         healthText = ht;
         ammoText = at;
+        gunText = gt;
         playerGun = pg;
     }
 
@@ -27,7 +29,11 @@ public class PlayerUIManager : MonoBehaviour {
         healthText.text = "Health: " + health + " / " + healthSlider.maxValue;
     }
 
-    public void ChangeGunUI(int ammo){
+    public void ChangeGunAmmoUI(int ammo, int maxAmmo){
+        ammoText.text = "Ammo: " + ammo + " / " + maxAmmo;
+    }
 
+    public void ChangeGunUI(string gunName){
+        gunText.text = gunName;
     }
 }

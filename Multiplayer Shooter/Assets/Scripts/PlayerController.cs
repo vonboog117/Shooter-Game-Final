@@ -18,6 +18,7 @@ public class PlayerController : NetworkBehaviour {
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Text healthText;
     [SerializeField] private Text ammoText;
+    [SerializeField] private Text gunText;
 
     private CharacterController characterController;
     private Camera camera;
@@ -40,18 +41,20 @@ public class PlayerController : NetworkBehaviour {
         playerHealth = GetComponent<Health>();
         newPlayerGun = GetComponentInChildren<Gun>();
 
-        playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, newPlayerGun);
+        playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, gunText, newPlayerGun);
 
         camera = FindObjectOfType<Camera>();
         joystick = FindObjectOfType<Joystick>();
 
         camera.GetComponent<CameraController>().SetPlayer(this.gameObject);
         camera.GetComponent<CameraController>().SetPlayerGun(playerGun);
-        joystick.player = this;
+
+        if (joystick != null){
+            joystick.player = this;
+        }
     }
 
     void Update(){
-       
         if (!isLocalPlayer){
             return;
         }
@@ -65,6 +68,9 @@ public class PlayerController : NetworkBehaviour {
             if (Input.GetMouseButton(0)){
                 //CmdSpawnBullet();
                 newPlayerGun.Fire(camera);
+            }
+            if (Input.GetKeyDown(KeyCode.R)){
+                newPlayerGun.Reload();
             }
         }
 
@@ -111,9 +117,7 @@ public class PlayerController : NetworkBehaviour {
 
             if (vert > 0){
                 movement = (this.gameObject.transform.up * vert) + (camera.gameObject.transform.right * hor);
-                Debug.Log(this.gameObject.transform.up * vert);
-            }
-            else if (vert < 0){
+            }else if (vert < 0){
                 movement = (camera.gameObject.transform.forward * vert) + (camera.gameObject.transform.right * hor) + new Vector3(0, -9.8f * Time.deltaTime, 0);
             }else if (Input.GetKey(KeyCode.LeftShift)){
                 movement = camera.gameObject.transform.right * hor;
