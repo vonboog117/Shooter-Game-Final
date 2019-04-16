@@ -11,6 +11,7 @@ public class Gun : MonoBehaviour{
     public float fireRate;
     public float reloadTime;
     public float shotDuration;
+    public string gunName;
     public Gradient damageFalloff;
 
     private bool canFire;
@@ -68,6 +69,10 @@ public class Gun : MonoBehaviour{
             reloading = true;
             StartCoroutine(ReloadCo());
         }
+    }
+
+    public void Drop(){
+
     }
 
     private int CalculateDamage(float distance){
