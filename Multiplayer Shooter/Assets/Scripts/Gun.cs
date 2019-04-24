@@ -20,12 +20,14 @@ public class Gun : MonoBehaviour{
     private LineRenderer shotLine;
     private PlayerController playerController;
     private PlayerUIManager playerUIManager;
+    private GunInteractable gi;
 
     void Start(){
         shotLine = GetComponent<LineRenderer>();
         playerController = GetComponentInParent<PlayerController>();
         playerUIManager = playerController.GetUIManager();
         playerUIManager.ChangeGunAmmoUI(maxClipAmmo, maxClipAmmo);
+        gi = GetComponent<GunInteractable>();
 
         canFire = true;
         reloading = false;
@@ -72,7 +74,7 @@ public class Gun : MonoBehaviour{
     }
 
     public void Drop(){
-
+        gi.SwitchToInteractable();
     }
 
     private int CalculateDamage(float distance){

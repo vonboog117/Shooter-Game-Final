@@ -26,6 +26,7 @@ public class PlayerController : NetworkBehaviour {
     private Gun newPlayerGun;
     private PlayerUIManager playerUIManager;
     private Joystick joystick;
+    private Interactable activeInteractable = null;
 
     private bool isOnLadder;
     private bool recieveInput = true;
@@ -71,6 +72,13 @@ public class PlayerController : NetworkBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.R)){
                 newPlayerGun.Reload();
+            }
+            if (Input.GetKeyDown(KeyCode.E) && activeInteractable != null){
+                activeInteractable.Interact(gameObject);
+            }
+            if (Input.GetKeyDown(KeyCode.Q)){
+                newPlayerGun.Drop();
+                newPlayerGun = null;
             }
         }
 
@@ -142,12 +150,17 @@ public class PlayerController : NetworkBehaviour {
             isOnLadder = true;
         }else if (other.gameObject.GetComponent<Bullet>() != null){
             playerHealth.TakeDamage(other.gameObject.GetComponent<Bullet>().bulletDamage);
+        }else if (other.gameObject.GetComponent<Interactable>() != null){
+            activeInteractable = other.gameObject.GetComponent<Interactable>();
+            Debug.Log("Here");
         }
     }
 
     private void OnTriggerExit(Collider other){
         if (other.gameObject.tag == "Ladder"){
             isOnLadder = false;
+        }else if (other.gameObject.GetComponent<Interactable>() != null){
+            activeInteractable = null;
         }
     }
 

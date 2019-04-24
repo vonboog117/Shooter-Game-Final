@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour {
+public abstract class Interactable: MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    protected string name;
+    protected bool canInteract;
+
+    //protected abstract void Init();
+
+    public abstract void Interact(GameObject player);
+
+    public void OnInteractableTriggerEnter(Collider other){
+        if (other.gameObject.GetComponent<PlayerController>() != null){
+            canInteract = true;
+        }
+    }
+
+    public void OnInteractableTriggerExit(Collider other){
+        if (other.gameObject.GetComponent<PlayerController>() != null){
+            canInteract = false;
+        }
+    }
 }

@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 114807801602734432}
   - component: {fileID: 120354008211382496}
   - component: {fileID: 114138787214767780}
-  - component: {fileID: 114118745887268934}
   m_Layer: 0
   m_Name: BaseGun
   m_TagString: Untagged
@@ -56,6 +55,7 @@ GameObject:
   - component: {fileID: 33100654227878260}
   - component: {fileID: 23307781769389374}
   - component: {fileID: 65933873753318806}
+  - component: {fileID: 114921975156647146}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -158,17 +158,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 4, z: 1}
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940699}
---- !u!114 &114118745887268934
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1876340522207476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf44658b17b5c4ca0b315f174338e595, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114138787214767780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -232,6 +221,17 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+--- !u!114 &114921975156647146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1962382726287718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c249b6856aea940ebb57baf965121591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!120 &120354008211382496
 LineRenderer:
   m_ObjectHideFlags: 1
