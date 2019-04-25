@@ -13,10 +13,12 @@ public class GunInteractable : Interactable {
 
     private Collider triggerCollider;
     private Gun gun;
+    [SerializeField] private GameObject physicalObject;
 
-	void Start () {
+
+    void Start () {
         gun = GetComponent<Gun>();
-        triggerCollider = GetComponentInChildren<Collider>();
+        triggerCollider = GetComponent<Collider>();
         name = gun.gunName;
         canInteract = false;
 
@@ -32,6 +34,8 @@ public class GunInteractable : Interactable {
     public void SwitchToInteractable(){
         gun.enabled = false;
         triggerCollider.enabled = true;
+        gameObject.tag = "Interactable";
+        physicalObject.tag = "Interactable";
 
         gameObject.transform.position = dropPosition;
         Quaternion rotation = new Quaternion();
@@ -55,9 +59,11 @@ public class GunInteractable : Interactable {
     public override void Interact(GameObject player){
         gun.enabled = true;
         triggerCollider.enabled = false;
+        gameObject.tag = "Untagged";
+        physicalObject.tag = "Untagged";
 
         gameObject.transform.parent = player.transform;
-        gameObject.transform.position = gunPosition;
+        gameObject.transform.position = player.transform.position + gunPosition;
         Quaternion rotation = new Quaternion();
         rotation.eulerAngles = gunRotation;
         gameObject.transform.rotation = rotation;

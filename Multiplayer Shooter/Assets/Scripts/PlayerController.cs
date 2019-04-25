@@ -23,7 +23,7 @@ public class PlayerController : NetworkBehaviour {
     private CharacterController characterController;
     private Camera camera;
     private Health playerHealth;
-    private Gun newPlayerGun;
+    private Gun gun;
     private PlayerUIManager playerUIManager;
     private Joystick joystick;
     private Interactable activeInteractable = null;
@@ -40,9 +40,9 @@ public class PlayerController : NetworkBehaviour {
     void Start(){
         characterController = GetComponent<CharacterController>();
         playerHealth = GetComponent<Health>();
-        newPlayerGun = GetComponentInChildren<Gun>();
+        gun = GetComponentInChildren<Gun>();
 
-        playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, gunText, newPlayerGun);
+        playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, gunText, gun);
 
         camera = FindObjectOfType<Camera>();
         joystick = FindObjectOfType<Joystick>();
@@ -68,17 +68,20 @@ public class PlayerController : NetworkBehaviour {
 
             if (Input.GetMouseButton(0)){
                 //CmdSpawnBullet();
-                newPlayerGun.Fire(camera);
+                gun.Fire(camera);
             }
             if (Input.GetKeyDown(KeyCode.R)){
-                newPlayerGun.Reload();
+                gun.Reload();
             }
             if (Input.GetKeyDown(KeyCode.E) && activeInteractable != null){
                 activeInteractable.Interact(gameObject);
+                gun = activeInteractable.gameObject.GetComponent<Gun>();
+                playerGun = activeInteractable.gameObject;
+                Debug.Log("ehre");
             }
-            if (Input.GetKeyDown(KeyCode.Q)){
-                newPlayerGun.Drop();
-                newPlayerGun = null;
+            if (Input.GetKeyDown(KeyCode.Q) && gun != null){
+                gun.Drop();
+                gun = null;
             }
         }
 
@@ -145,21 +148,24 @@ public class PlayerController : NetworkBehaviour {
         NetworkServer.Spawn(bullet);
     }
 
+    public void PickUpGun(){
+
+    }
+
     private void OnTriggerEnter(Collider other){
         if (other.gameObject.tag == "Ladder"){
             isOnLadder = true;
         }else if (other.gameObject.GetComponent<Bullet>() != null){
             playerHealth.TakeDamage(other.gameObject.GetComponent<Bullet>().bulletDamage);
-        }else if (other.gameObject.GetComponent<Interactable>() != null){
+        }else if (other.gameObject.tag == "Interactable"){
             activeInteractable = other.gameObject.GetComponent<Interactable>();
-            Debug.Log("Here");
         }
     }
 
     private void OnTriggerExit(Collider other){
         if (other.gameObject.tag == "Ladder"){
             isOnLadder = false;
-        }else if (other.gameObject.GetComponent<Interactable>() != null){
+        }else if (other.gameObject.tag == "Interactable"){
             activeInteractable = null;
         }
     }
