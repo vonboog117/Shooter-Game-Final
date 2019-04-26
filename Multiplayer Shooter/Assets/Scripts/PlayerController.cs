@@ -59,7 +59,7 @@ public class PlayerController : NetworkBehaviour {
         if (!isLocalPlayer){
             return;
         }
-
+        
         if (recieveInput){
             float hor = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
             float vert = Input.GetAxis("Vertical") * speed * Time.deltaTime;
@@ -68,7 +68,9 @@ public class PlayerController : NetworkBehaviour {
 
             if (Input.GetMouseButton(0)){
                 //CmdSpawnBullet();
-                gun.Fire(camera);
+                if (gun != null){
+                    gun.Fire(camera);
+                }
             }
             if (Input.GetKeyDown(KeyCode.R)){
                 gun.Reload();
@@ -77,7 +79,7 @@ public class PlayerController : NetworkBehaviour {
                 activeInteractable.Interact(gameObject);
                 gun = activeInteractable.gameObject.GetComponent<Gun>();
                 playerGun = activeInteractable.gameObject;
-                Debug.Log("ehre");
+                activeInteractable = null;
             }
             if (Input.GetKeyDown(KeyCode.Q) && gun != null){
                 gun.Drop();

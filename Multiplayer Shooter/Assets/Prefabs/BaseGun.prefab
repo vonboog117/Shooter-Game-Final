@@ -55,7 +55,6 @@ GameObject:
   - component: {fileID: 4372863805954306}
   - component: {fileID: 33100654227878260}
   - component: {fileID: 23307781769389374}
-  - component: {fileID: 65933873753318806}
   - component: {fileID: 114921975156647146}
   m_Layer: 0
   m_Name: Gun
@@ -147,18 +146,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1962382726287718}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65933873753318806
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1962382726287718}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 1}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940699}
 --- !u!65 &65949895630341388
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -183,9 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startAsInteractable: 1
-  gunPosition: {x: 0.25, y: 1.75, z: 0.3}
   gunRotation: {x: 0, y: 0, z: 0}
-  dropPosition: {x: 0, y: 1, z: 1.75}
   dropRotation: {x: 0, y: 90, z: 0}
   physicalObject: {fileID: 1962382726287718}
 --- !u!114 &114807801602734432

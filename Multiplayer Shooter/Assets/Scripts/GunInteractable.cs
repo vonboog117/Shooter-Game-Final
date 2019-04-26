@@ -6,13 +6,13 @@ using UnityEngine;
 public class GunInteractable : Interactable {
 
     public bool startAsInteractable;
-    public Vector3 gunPosition;
     public Vector3 gunRotation;
-    public Vector3 dropPosition;
     public Vector3 dropRotation;
 
     private Collider triggerCollider;
     private Gun gun;
+    private Transform gunPositionTransform;
+    private Transform dropPositionTransform;
     [SerializeField] private GameObject physicalObject;
 
 
@@ -30,14 +30,18 @@ public class GunInteractable : Interactable {
             }
         }
     }
-	
+
     public void SwitchToInteractable(){
         gun.enabled = false;
         triggerCollider.enabled = true;
         gameObject.tag = "Interactable";
         physicalObject.tag = "Interactable";
+        if (!startAsInteractable){
+            dropPositionTransform = gameObject.transform.parent.transform.GetChild(3);
+            gameObject.transform.position = dropPositionTransform.position;
 
-        gameObject.transform.position = dropPosition;
+        }
+
         Quaternion rotation = new Quaternion();
         rotation.eulerAngles = dropRotation;
         gameObject.transform.rotation = rotation;
@@ -61,13 +65,15 @@ public class GunInteractable : Interactable {
         triggerCollider.enabled = false;
         gameObject.tag = "Untagged";
         physicalObject.tag = "Untagged";
+        gunPositionTransform = player.transform.GetChild(2);
 
         gameObject.transform.parent = player.transform;
-        gameObject.transform.position = player.transform.position + gunPosition;
+        gameObject.transform.position = gunPositionTransform.position;
         Quaternion rotation = new Quaternion();
         rotation.eulerAngles = gunRotation;
         gameObject.transform.rotation = rotation;
 
         canInteract = false;
+
     }
 }
