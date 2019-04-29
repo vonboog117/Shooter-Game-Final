@@ -48,7 +48,7 @@ public class PlayerController : NetworkBehaviour {
         joystick = FindObjectOfType<Joystick>();
 
         camera.GetComponent<CameraController>().SetPlayer(this.gameObject);
-        camera.GetComponent<CameraController>().SetPlayerGun(playerGun);
+        camera.GetComponent<CameraController>().SetPlayerGun(gun.gameObject);
 
         if (joystick != null){
             joystick.player = this;
@@ -80,10 +80,12 @@ public class PlayerController : NetworkBehaviour {
                 gun = activeInteractable.gameObject.GetComponent<Gun>();
                 playerGun = activeInteractable.gameObject;
                 activeInteractable = null;
+                camera.GetComponent<CameraController>().SetPlayerGun(gun.gameObject);
             }
             if (Input.GetKeyDown(KeyCode.Q) && gun != null){
                 gun.Drop();
                 gun = null;
+                camera.GetComponent<CameraController>().SetPlayerGun(null);
             }
         }
 

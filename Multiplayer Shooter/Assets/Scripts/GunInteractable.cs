@@ -39,7 +39,6 @@ public class GunInteractable : Interactable {
         if (!startAsInteractable){
             dropPositionTransform = gameObject.transform.parent.transform.GetChild(3);
             gameObject.transform.position = dropPositionTransform.position;
-
         }
 
         Quaternion rotation = new Quaternion();
@@ -73,7 +72,8 @@ public class GunInteractable : Interactable {
         rotation.eulerAngles = gunRotation;
         gameObject.transform.rotation = rotation;
 
+        gun.Equip();
         canInteract = false;
-
+        startAsInteractable = false;
     }
 }

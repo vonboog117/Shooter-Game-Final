@@ -73,8 +73,10 @@ public class CameraController : NetworkBehaviour {
 
         transform.localEulerAngles = new Vector3(xRotation, yRotation, 0);
 
-        if (player != null && playerGun != null){
+        if (player != null){
             player.transform.localEulerAngles = new Vector3(0, yRotation, 0);
+        }
+        if (playerGun != null){
             playerGun.transform.localEulerAngles = new Vector3(xRotation, 0, 0);
         }
     }

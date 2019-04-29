@@ -73,8 +73,17 @@ public class Gun : MonoBehaviour{
         }
     }
 
+    public void Equip(){
+        playerController = GetComponentInParent<PlayerController>();
+        playerUIManager = playerController.GetUIManager();
+        playerUIManager.ChangeGunAmmoUI(clipAmmo, maxClipAmmo);
+        playerUIManager.ChangeGunUI(gunName);
+    }
+
     public void Drop(){
         gi.SwitchToInteractable();
+        playerUIManager.ChangeGunAmmoUI(0,0);
+        playerUIManager.ChangeGunUI("No Gun");
     }
 
     private int CalculateDamage(float distance){
