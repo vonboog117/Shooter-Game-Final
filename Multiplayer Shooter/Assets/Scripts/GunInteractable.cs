@@ -48,17 +48,6 @@ public class GunInteractable : Interactable {
 
     }
 
-    //public void SwitchToGun(GameObject player){
-    //    gun.enabled = true;
-    //    triggerCollider.enabled = false;
-
-    //    gameObject.transform.parent = player.transform;
-    //    gameObject.transform.position = gunPosition;
-    //    Quaternion rotation = new Quaternion();
-    //    rotation.eulerAngles = gunRotation;
-    //    gameObject.transform.rotation = rotation;
-    //}
-
     public override void Interact(GameObject player){
         gun.enabled = true;
         triggerCollider.enabled = false;

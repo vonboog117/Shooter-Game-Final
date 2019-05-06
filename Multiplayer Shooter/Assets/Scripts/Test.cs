@@ -2,9 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test : Interactable {
+public class Test : MonoBehaviour {
 
-    public override void Interact(GameObject player){
-        Debug.Log("Interact");
+    bool test = false;
+
+    void Update(){
+        if (Input.GetKeyDown(KeyCode.N)){
+            StartCoroutine("Testing");
+            test = true;
+            Debug.Log("Started");
+        }
+    }
+
+    private IEnumerator Testing(){
+        yield return new WaitForSeconds(5);
+        Debug.Log("Done");
+        test = false;
     }
 }

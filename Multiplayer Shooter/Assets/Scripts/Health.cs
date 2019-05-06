@@ -42,7 +42,6 @@ public class Health : NetworkBehaviour {
         }
 
         playerUI.ChangeHealthUI(currentHealth);
-
     }
 
     public void Heal(int health){
@@ -55,6 +54,8 @@ public class Health : NetworkBehaviour {
         if (currentHealth > maxHealth){
             currentHealth = maxHealth;
         }
+
+        playerUI.ChangeHealthUI(currentHealth);
     }
 
     private void OnHeathZero(){

@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Despawner))]
 public abstract class Interactable: MonoBehaviour {
 
     protected string name;
     protected bool canInteract;
+    protected Despawner despawner;
 
-    //protected abstract void Init();
+    void Start(){
+        despawner = GetComponent<Despawner>();
+    }
 
     public abstract void Interact(GameObject player);
 

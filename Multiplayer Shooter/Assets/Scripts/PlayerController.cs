@@ -76,15 +76,35 @@ public class PlayerController : NetworkBehaviour {
                 gun.Reload();
             }
             if (Input.GetKeyDown(KeyCode.E) && activeInteractable != null){
+                //This statement needs to be generalized to allow for other types of interactables to be used
+                //All the gun specific code needs to either be move to its own fuction or moved to the gun or guninteractable scripts
                 activeInteractable.Interact(gameObject);
-                gun = activeInteractable.gameObject.GetComponent<Gun>();
-                playerGun = activeInteractable.gameObject;
-                activeInteractable = null;
-                camera.GetComponent<CameraController>().SetPlayerGun(gun.gameObject);
+
+
+
+                //if (gun != null)
+                //{
+                //    gun.Drop();
+                //    gun = null;
+                //    GetComponent<NetworkTransformChild>().enabled = false;
+                //    playerGun.GetComponent<Despawner>().StartDespawnTimer();
+                //    camera.GetComponent<CameraController>().SetPlayerGun(null);
+                //}
+                //activeInteractable.gameObject.GetComponent<Despawner>().StopDespawn();
+
+                //gun = activeInteractable.gameObject.GetComponent<Gun>();
+                //playerGun = activeInteractable.gameObject;
+                //activeInteractable = null;
+                //GetComponent<NetworkTransformChild>().target = playerGun.transform;
+                //GetComponent<NetworkTransformChild>().enabled = true;
+                //camera.GetComponent<CameraController>().SetPlayerGun(gun.gameObject);
             }
+
             if (Input.GetKeyDown(KeyCode.Q) && gun != null){
                 gun.Drop();
                 gun = null;
+                GetComponent<NetworkTransformChild>().enabled = false;
+                playerGun.GetComponent<Despawner>().StartDespawnTimer();
                 camera.GetComponent<CameraController>().SetPlayerGun(null);
             }
         }
@@ -153,7 +173,21 @@ public class PlayerController : NetworkBehaviour {
     }
 
     public void PickUpGun(){
-
+        if (gun != null){
+            gun.Drop();
+            gun = null;
+            GetComponent<NetworkTransformChild>().enabled = false;
+            playerGun.GetComponent<Despawner>().StartDespawnTimer();
+            camera.GetComponent<CameraController>().SetPlayerGun(null);
+        }
+        //activeInteractable.gameObject.GetComponent<Despawner>().StopDespawn();
+        
+        gun = activeInteractable.gameObject.GetComponent<Gun>();
+        playerGun = activeInteractable.gameObject;
+        activeInteractable = null;
+        GetComponent<NetworkTransformChild>().target = playerGun.transform;
+        GetComponent<NetworkTransformChild>().enabled = true;
+        camera.GetComponent<CameraController>().SetPlayerGun(gun.gameObject);
     }
 
     private void OnTriggerEnter(Collider other){

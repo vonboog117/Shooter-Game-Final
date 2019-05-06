@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: 120567176042120460}
   - component: {fileID: 114156054787457562}
   - component: {fileID: 65841891721914404}
+  - component: {fileID: 114560451264824124}
   m_Layer: 0
   m_Name: BaseGun
   m_TagString: Untagged
@@ -1009,6 +1010,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Fire
+--- !u!114 &114560451264824124
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1658522088869452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7627d2bf071de46fcbe75678726b8472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnTime: 10
 --- !u!114 &114613705077683304
 MonoBehaviour:
   m_ObjectHideFlags: 1

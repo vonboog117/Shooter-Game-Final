@@ -25,8 +25,10 @@ public class Gun : MonoBehaviour{
     void Start(){
         shotLine = GetComponent<LineRenderer>();
         playerController = GetComponentInParent<PlayerController>();
-        playerUIManager = playerController.GetUIManager();
-        playerUIManager.ChangeGunAmmoUI(maxClipAmmo, maxClipAmmo);
+        if (playerController != null){
+            playerUIManager = playerController.GetUIManager();
+            playerUIManager.ChangeGunAmmoUI(maxClipAmmo, maxClipAmmo);
+        }
         gi = GetComponent<GunInteractable>();
 
         canFire = true;
@@ -75,6 +77,7 @@ public class Gun : MonoBehaviour{
 
     public void Equip(){
         playerController = GetComponentInParent<PlayerController>();
+        playerController.PickUpGun();
         playerUIManager = playerController.GetUIManager();
         playerUIManager.ChangeGunAmmoUI(clipAmmo, maxClipAmmo);
         playerUIManager.ChangeGunUI(gunName);
