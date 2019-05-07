@@ -80,7 +80,9 @@ public class PlayerController : NetworkBehaviour {
                 //All the gun specific code needs to either be move to its own fuction or moved to the gun or guninteractable scripts
                 activeInteractable.Interact(gameObject);
 
-
+                if (activeInteractable.gameObject.GetComponent<Gun>() != null){
+                    PickUpGun();
+                }
 
                 //if (gun != null)
                 //{
@@ -180,8 +182,8 @@ public class PlayerController : NetworkBehaviour {
             playerGun.GetComponent<Despawner>().StartDespawnTimer();
             camera.GetComponent<CameraController>().SetPlayerGun(null);
         }
-        //activeInteractable.gameObject.GetComponent<Despawner>().StopDespawn();
-        
+
+        activeInteractable.gameObject.GetComponent<Despawner>().StopDespawn();
         gun = activeInteractable.gameObject.GetComponent<Gun>();
         playerGun = activeInteractable.gameObject;
         activeInteractable = null;

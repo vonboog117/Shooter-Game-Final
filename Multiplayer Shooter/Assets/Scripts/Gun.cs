@@ -77,7 +77,7 @@ public class Gun : MonoBehaviour{
 
     public void Equip(){
         playerController = GetComponentInParent<PlayerController>();
-        playerController.PickUpGun();
+        //playerController.PickUpGun();
         playerUIManager = playerController.GetUIManager();
         playerUIManager.ChangeGunAmmoUI(clipAmmo, maxClipAmmo);
         playerUIManager.ChangeGunUI(gunName);
