@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 65056231591523322}
   - component: {fileID: 114580598807521094}
   - component: {fileID: 114648583813842488}
+  - component: {fileID: 114120835033216344}
   m_Layer: 0
   m_Name: LargeHealthPack
   m_TagString: Interactable
@@ -536,6 +537,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2.5, z: 2}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &114120835033216344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1752542214543654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 24
+    i1: 156
+    i2: 245
+    i3: 150
+    i4: 202
+    i5: 105
+    i6: 116
+    i7: 156
+    i8: 250
+    i9: 237
+    i10: 202
+    i11: 130
+    i12: 90
+    i13: 243
+    i14: 123
+    i15: 114
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114580598807521094
 MonoBehaviour:
   m_ObjectHideFlags: 1

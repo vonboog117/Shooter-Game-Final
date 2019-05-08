@@ -61,7 +61,7 @@ public class GunInteractable : Interactable {
         rotation.eulerAngles = gunRotation;
         gameObject.transform.rotation = rotation;
 
-        gun.Equip();
+        //gun.Equip();
         canInteract = false;
         startAsInteractable = false;
     }

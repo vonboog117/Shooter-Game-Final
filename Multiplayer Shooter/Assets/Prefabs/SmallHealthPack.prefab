@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 65646971060719954}
   - component: {fileID: 114653180490224242}
   - component: {fileID: 114484545404633868}
+  - component: {fileID: 114486767374935140}
   m_Layer: 0
   m_Name: SmallHealthPack
   m_TagString: Interactable
@@ -898,6 +899,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   despawnTime: 0
+--- !u!114 &114486767374935140
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1117289537141728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 129
+    i1: 89
+    i2: 131
+    i3: 103
+    i4: 62
+    i5: 80
+    i6: 148
+    i7: 91
+    i8: 219
+    i9: 65
+    i10: 184
+    i11: 130
+    i12: 68
+    i13: 44
+    i14: 209
+    i15: 98
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114653180490224242
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -39,6 +39,8 @@ GameObject:
   - component: {fileID: 114138787214767780}
   - component: {fileID: 114466490301581190}
   - component: {fileID: 65949895630341388}
+  - component: {fileID: 114341248268417460}
+  - component: {fileID: 114520976710472118}
   m_Layer: 0
   m_Name: BaseGun
   m_TagString: Untagged
@@ -174,6 +176,38 @@ MonoBehaviour:
   gunRotation: {x: 0, y: 0, z: 0}
   dropRotation: {x: 0, y: 90, z: 0}
   physicalObject: {fileID: 1962382726287718}
+--- !u!114 &114341248268417460
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1876340522207476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 251
+    i1: 200
+    i2: 137
+    i3: 77
+    i4: 255
+    i5: 198
+    i6: 84
+    i7: 42
+    i8: 43
+    i9: 213
+    i10: 200
+    i11: 7
+    i12: 76
+    i13: 233
+    i14: 161
+    i15: 29
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114466490301581190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,6 +220,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   despawnTime: 20
+--- !u!114 &114520976710472118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1876340522207476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114807801602734432
 MonoBehaviour:
   m_ObjectHideFlags: 1
