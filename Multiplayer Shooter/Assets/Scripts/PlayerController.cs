@@ -15,6 +15,7 @@ public class PlayerController : NetworkBehaviour {
     [SerializeField] private GameObject playerGun;
     [SerializeField] private GameObject bulletSpawn;
     [SerializeField] private Texture2D crosshair;
+    [SerializeField] private GameObject canvas;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Text healthText;
     [SerializeField] private Text ammoText;
@@ -69,7 +70,7 @@ public class PlayerController : NetworkBehaviour {
             if (Input.GetMouseButton(0)){
                 //CmdSpawnBullet();
                 if (gun != null){
-                    gun.Fire(camera);
+                    Cmd_Fire();
                 }
             }
             if (Input.GetKeyDown(KeyCode.R)){
@@ -112,6 +113,7 @@ public class PlayerController : NetworkBehaviour {
     public override void OnStartLocalPlayer(){
         if (isLocalPlayer){
             Cursor.lockState = CursorLockMode.Locked;
+            canvas.SetActive(true);
         }
 
         //joystick.ipText.text = NetworkManager.singleton.networkAddress;
@@ -143,14 +145,23 @@ public class PlayerController : NetworkBehaviour {
         }
 
         characterController.Move(movement);
-   }
+    }
 
+    //Commands are called by clients and are only ran on servers
+    //ClientRPCs are called by servers and are ran on clients
     [Command]
     public void CmdSpawnBullet(){
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
         bullet.GetComponent<Bullet>().originObject = playerGun;
 
         NetworkServer.Spawn(bullet);
+    }
+
+    //There is only one camera in the scene, because the server is the one calling this the raycast will always go where the server's camera is facing
+    //Either add cameras as children of players, or find a way for clients to create the raycast
+    [Command]
+    public void Cmd_Fire(){
+        gun.Fire(camera);
     }
 
     public void PickUpGun(){

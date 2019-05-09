@@ -12,6 +12,7 @@ public class Health : NetworkBehaviour {
     private PlayerController player;
     private PlayerUIManager playerUI;
 
+    //SyncVar sends server values to clients
     [SyncVar]
     private int currentHealth;
 
