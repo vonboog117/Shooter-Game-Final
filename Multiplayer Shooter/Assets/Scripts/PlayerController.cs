@@ -45,7 +45,7 @@ public class PlayerController : NetworkBehaviour {
 
         playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, gunText, gun);
 
-        camera = FindObjectOfType<Camera>();
+        camera = GetComponentInChildren<Camera>();
         joystick = FindObjectOfType<Joystick>();
 
         camera.GetComponent<CameraController>().SetPlayer(this.gameObject);
@@ -114,6 +114,8 @@ public class PlayerController : NetworkBehaviour {
         if (isLocalPlayer){
             Cursor.lockState = CursorLockMode.Locked;
             canvas.SetActive(true);
+        }else{
+            camera.gameObject.SetActive(false);
         }
 
         //joystick.ipText.text = NetworkManager.singleton.networkAddress;

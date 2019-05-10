@@ -12,6 +12,7 @@ public class CameraController : NetworkBehaviour {
     public float maxVertRotation = 45.0f;
 
     public float xRotation = 0;
+    public float yRotation = 0;
 
     private GameObject player;
     private GameObject playerGun;
@@ -43,7 +44,7 @@ public class CameraController : NetworkBehaviour {
         }
 
         if (player != null && player.GetComponent<PlayerController>() != null && player.GetComponent<PlayerController>().isLocalPlayer && player.GetComponent<PlayerController>().GetReciveInput()){
-            Move();
+            //Move();
             if (!SystemInfo.deviceModel.Contains("iPad")){
                 Rotate();
             }else{
@@ -69,9 +70,9 @@ public class CameraController : NetworkBehaviour {
         xRotation = Mathf.Clamp(xRotation, minVertRotation, maxVertRotation);
 
         float delta = Input.GetAxis("Mouse X") * horizontalSensitivity;
-        float yRotation = transform.localEulerAngles.y + delta;
+        yRotation += delta;
 
-        transform.localEulerAngles = new Vector3(xRotation, yRotation, 0);
+        transform.localEulerAngles = new Vector3(xRotation, 0, 0);
 
         if (player != null){
             player.transform.localEulerAngles = new Vector3(0, yRotation, 0);
