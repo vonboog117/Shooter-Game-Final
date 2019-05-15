@@ -20,9 +20,9 @@ public class PlayerController : NetworkBehaviour {
     [SerializeField] private Text healthText;
     [SerializeField] private Text ammoText;
     [SerializeField] private Text gunText;
+    [SerializeField] private Camera camera;
 
     private CharacterController characterController;
-    private Camera camera;
     private Health playerHealth;
     private Gun gun;
     private PlayerUIManager playerUIManager;
@@ -45,7 +45,6 @@ public class PlayerController : NetworkBehaviour {
 
         playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, gunText, gun);
 
-        camera = GetComponentInChildren<Camera>();
         joystick = FindObjectOfType<Joystick>();
 
         camera.GetComponent<CameraController>().SetPlayer(this.gameObject);
@@ -82,12 +81,12 @@ public class PlayerController : NetworkBehaviour {
                 activeInteractable.Interact(gameObject);
 
                 if (activeInteractable.gameObject.GetComponent<Gun>() != null){
-                    PickUpGun();
+                    Cmd_PickUpGun();
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.Q) && gun != null){
-                DropGun();
+                Cmd_DropGun();
             }
         }
 
@@ -112,10 +111,9 @@ public class PlayerController : NetworkBehaviour {
 
     public override void OnStartLocalPlayer(){
         if (isLocalPlayer){
+            camera.gameObject.SetActive(true);
             Cursor.lockState = CursorLockMode.Locked;
             canvas.SetActive(true);
-        }else{
-            camera.gameObject.SetActive(false);
         }
 
         //joystick.ipText.text = NetworkManager.singleton.networkAddress;
@@ -166,7 +164,8 @@ public class PlayerController : NetworkBehaviour {
         gun.Fire(camera);
     }
 
-    public void PickUpGun(){
+    [Command]
+    public void Cmd_PickUpGun(){
         if (gun != null){
             gun.Drop();
             gun = null;
@@ -185,7 +184,8 @@ public class PlayerController : NetworkBehaviour {
         camera.GetComponent<CameraController>().SetPlayerGun(gun.gameObject);
     }
 
-    public void DropGun(){
+    [Command]
+    public void Cmd_DropGun(){
         gun.Drop();
         gun = null;
         GetComponent<NetworkTransformChild>().enabled = false;

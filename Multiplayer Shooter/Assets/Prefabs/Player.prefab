@@ -77,7 +77,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1244086641648412
 GameObject:
   m_ObjectHideFlags: 1
@@ -785,7 +785,7 @@ MonoBehaviour:
   maxRange: 40
   fireRate: 3.5
   reloadTime: 2
-  shotDuration: 0.08
+  shotDuration: 0.04
   gunName: Base Gun
   damageFalloff:
     serializedVersion: 2
@@ -1250,6 +1250,7 @@ MonoBehaviour:
   healthText: {fileID: 114759065214513306}
   ammoText: {fileID: 114116382057800880}
   gunText: {fileID: 114079573183436978}
+  camera: {fileID: 20941196721564682}
 --- !u!114 &114645286214808406
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1625,7 +1626,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.1
+    widthMultiplier: 0.05
     widthCurve:
       serializedVersion: 2
       m_Curve:
