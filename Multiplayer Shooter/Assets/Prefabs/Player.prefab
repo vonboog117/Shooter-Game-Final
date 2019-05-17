@@ -70,7 +70,6 @@ GameObject:
   - component: {fileID: 81928549252269442}
   - component: {fileID: 114817634044560100}
   - component: {fileID: 95361211597124178}
-  - component: {fileID: 114349705778019348}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -281,8 +280,6 @@ GameObject:
   - component: {fileID: 114156054787457562}
   - component: {fileID: 65841891721914404}
   - component: {fileID: 114560451264824124}
-  - component: {fileID: 114645286214808406}
-  - component: {fileID: 114253284728516364}
   m_Layer: 0
   m_Name: BaseGun
   m_TagString: Untagged
@@ -816,6 +813,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  camera: {fileID: 20941196721564682}
 --- !u!114 &114063445443652954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1040,59 +1038,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114253284728516364
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1658522088869452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
---- !u!114 &114349705778019348
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1197705341138812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 164
-    i1: 130
-    i2: 67
-    i3: 54
-    i4: 203
-    i5: 222
-    i6: 36
-    i7: 39
-    i8: 88
-    i9: 27
-    i10: 184
-    i11: 22
-    i12: 75
-    i13: 245
-    i14: 242
-    i15: 240
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
 --- !u!114 &114358234261452530
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1251,38 +1196,6 @@ MonoBehaviour:
   ammoText: {fileID: 114116382057800880}
   gunText: {fileID: 114079573183436978}
   camera: {fileID: 20941196721564682}
---- !u!114 &114645286214808406
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1658522088869452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 164
-    i1: 130
-    i2: 67
-    i3: 54
-    i4: 203
-    i5: 222
-    i6: 36
-    i7: 39
-    i8: 88
-    i9: 27
-    i10: 184
-    i11: 22
-    i12: 75
-    i13: 245
-    i14: 242
-    i15: 240
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &114698633678670598
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1460,6 +1373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isTarget: 0
+  deadText: {fileID: 0}
   maxHealth: 100
 --- !u!114 &114903929638274486
 MonoBehaviour:

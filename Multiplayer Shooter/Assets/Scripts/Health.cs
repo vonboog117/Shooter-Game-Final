@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Health : NetworkBehaviour {
 
     public bool isTarget;
+    public Text deadText;
 
     [SerializeField] private int maxHealth;
 
@@ -61,6 +63,7 @@ public class Health : NetworkBehaviour {
 
     private void OnHeathZero(){
         player.SetRecieveInput(false);
+        //player.gameObject.transform.localScale = new Vector3(1f, .5f, 1f);
         Debug.Log("Dead");
     }
 }

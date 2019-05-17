@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Gun : MonoBehaviour{
@@ -21,6 +22,7 @@ public class Gun : MonoBehaviour{
     private PlayerController playerController;
     private PlayerUIManager playerUIManager;
     private GunInteractable gi;
+    [SerializeField] Camera camera;
 
     void Start(){
         shotLine = GetComponent<LineRenderer>();
@@ -36,6 +38,7 @@ public class Gun : MonoBehaviour{
         clipAmmo = maxClipAmmo;
     }
 
+    //[ClientRpc]
     public void Fire(Camera playerCamera){
         if (!canFire){return;}
         shotLine.SetPosition(0, gameObject.transform.position);
