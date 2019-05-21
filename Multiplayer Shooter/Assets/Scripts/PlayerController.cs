@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+//This PlayerController class handles just about everything to do with the player, from movement, to UI, to shooting
+//I think this script became too all-encompassing, I attempted to move some responsibility away into scripts like PlayerUIManager, but this script was still required to get UI elements
+//All references to joystick or fingers are meant to be in a mobile application context, thought I don't think I finished successfully implementing it
+
 public class PlayerController : NetworkBehaviour {
 
     public float speed;
@@ -39,6 +43,7 @@ public class PlayerController : NetworkBehaviour {
 
     public void SetRecieveInput(bool shouldRecieveInput) { recieveInput = shouldRecieveInput; }
 
+    //Called once when the script is created
     void Start(){
         characterController = GetComponent<CharacterController>();
         playerHealth = GetComponent<Health>();
@@ -56,6 +61,7 @@ public class PlayerController : NetworkBehaviour {
         }
     }
 
+    //Called once every frame
     void Update(){
         if (!isLocalPlayer){
             return;
@@ -109,12 +115,16 @@ public class PlayerController : NetworkBehaviour {
         }
     }
 
+    //Created the crosshair for the player
     private void OnGUI(){
         if (isLocalPlayer){
             GUI.DrawTexture(new Rect(Screen.width / 2, Screen.height / 2, 10, 10), crosshair);
         }
     }
 
+    //Called when the client run by this instance is created
+    //Clients are instances of the same version of a game that is connected a server or host instance, this can either be a second instance run on the same computer, or an instance run on a different computer
+    //A host is considered both a client and a server, so it shares an instance with the server
     public override void OnStartLocalPlayer(){
         if (isLocalPlayer){
             camera.gameObject.SetActive(true);
@@ -155,6 +165,8 @@ public class PlayerController : NetworkBehaviour {
 
     //Commands are called by clients and are only ran on servers
     //ClientRPCs are called by servers and are ran on clients
+    //This function is not currently used. It shoots by spawning an instance of the bullet prefab
+    //From what I remember this function was successfully networked, but simply reverting this version of the project will likely not work. An earlier project from github would be best
     [Command]
     public void CmdSpawnBullet(){
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, bulletSpawn.transform.rotation);
@@ -163,10 +175,11 @@ public class PlayerController : NetworkBehaviour {
         NetworkServer.Spawn(bullet);
     }
 
-    //There is only one camera in the scene, because the server is the one calling this the raycast will always go where the server's camera is facing
-    //Either add cameras as children of players, or find a way for clients to create the raycast
+    //This function shoots using raycasts effectively as hitscan, as opposed to spawning bullets
     [Command]
     public void Cmd_Fire(){
+        //This is only  called on the server, so the host is the only instance that sees any shooting
+        //The problem is that I don't know how to "spawn" raycasts nor line renderers as I did with the bullet in CmdSpawnBullet
         gun.Fire(camera);
     }
 
