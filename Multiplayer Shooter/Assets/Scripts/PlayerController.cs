@@ -14,8 +14,9 @@ public class PlayerController : NetworkBehaviour {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject playerGun;
     [SerializeField] private GameObject bulletSpawn;
-    [SerializeField] private Texture2D crosshair;
     [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject controlsPanel;
+    [SerializeField] private Texture2D crosshair;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Text healthText;
     [SerializeField] private Text ammoText;
@@ -43,7 +44,7 @@ public class PlayerController : NetworkBehaviour {
         playerHealth = GetComponent<Health>();
         gun = GetComponentInChildren<Gun>();
 
-        playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, gunText, gun);
+        playerUIManager = new PlayerUIManager(healthSlider, healthText, ammoText, gunText, controlsPanel, gun);
 
         joystick = FindObjectOfType<Joystick>();
 
@@ -88,6 +89,11 @@ public class PlayerController : NetworkBehaviour {
             if (Input.GetKeyDown(KeyCode.Q) && gun != null){
                 Cmd_DropGun();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.O)){
+            recieveInput = !recieveInput;
+            playerUIManager.ToggleControlsPanel();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape)){

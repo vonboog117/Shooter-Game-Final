@@ -5,17 +5,20 @@ using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour {
 
+    private bool controlsActive = false;
     private Slider healthSlider;
     private Text healthText;
     private Text ammoText;
     private Text gunText;
+    private GameObject controlsPanel;
     private Gun playerGun;
 
-    public PlayerUIManager(Slider hs, Text ht, Text at, Text gt, Gun pg){
+    public PlayerUIManager(Slider hs, Text ht, Text at, Text gt, GameObject cp, Gun pg){
         healthSlider = hs;
         healthText = ht;
         ammoText = at;
         gunText = gt;
+        controlsPanel = cp;
         playerGun = pg;
     }
 
@@ -35,5 +38,14 @@ public class PlayerUIManager : MonoBehaviour {
 
     public void ChangeGunUI(string gunName){
         gunText.text = gunName;
+    }
+
+    public void ToggleControlsPanel(){
+        controlsActive = !controlsActive;
+        if (controlsActive){
+            controlsPanel.SetActive(true);
+        }else{
+            controlsPanel.SetActive(false);
+        }
     }
 }
