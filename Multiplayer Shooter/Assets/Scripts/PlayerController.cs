@@ -83,8 +83,6 @@ public class PlayerController : NetworkBehaviour {
                 gun.Reload();
             }
             if (Input.GetKeyDown(KeyCode.E) && activeInteractable != null){
-                //This statement needs to be generalized to allow for other types of interactables to be used
-                //All the gun specific code needs to either be move to its own fuction or moved to the gun or guninteractable scripts
                 activeInteractable.Interact(gameObject);
 
                 if (activeInteractable.gameObject.GetComponent<Gun>() != null){
@@ -115,7 +113,7 @@ public class PlayerController : NetworkBehaviour {
         }
     }
 
-    //Created the crosshair for the player
+    //Creates the crosshair for the player
     private void OnGUI(){
         if (isLocalPlayer){
             GUI.DrawTexture(new Rect(Screen.width / 2, Screen.height / 2, 10, 10), crosshair);
@@ -183,6 +181,9 @@ public class PlayerController : NetworkBehaviour {
         gun.Fire(camera);
     }
 
+    //This function picks up the gun
+    //In order to pick up the gun this function calls functions in the Gun component
+    //I should have tied the Gun script and the GunInteractable script more closely together
     [Command]
     public void Cmd_PickUpGun(){
         if (gun != null){
@@ -203,6 +204,7 @@ public class PlayerController : NetworkBehaviour {
         camera.GetComponent<CameraController>().SetPlayerGun(gun.gameObject);
     }
 
+    //This function drops the gun as well as starts the despawner
     [Command]
     public void Cmd_DropGun(){
         gun.Drop();

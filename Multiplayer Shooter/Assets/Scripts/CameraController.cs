@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+//This scipt is meant to control the camera, meaning rotating it and keeping it with the player
 public class CameraController : MonoBehaviour {
 
     public float verticalSensitivity;
@@ -30,8 +31,7 @@ public class CameraController : MonoBehaviour {
 
     private int trackedTouchID = -1;
 
-    private void Start()
-    {
+    private void Start(){
         //Initialization our angles of camera
         xAngle = 0f;
         yAngle = 0f;

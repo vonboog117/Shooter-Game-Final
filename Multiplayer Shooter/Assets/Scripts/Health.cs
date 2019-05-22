@@ -13,6 +13,7 @@ public class Health : NetworkBehaviour {
 
     private PlayerController player;
     private PlayerUIManager playerUI;
+    private Text targetDamageText;
 
     //SyncVar sends server values to clients
     [SyncVar]
@@ -24,9 +25,19 @@ public class Health : NetworkBehaviour {
 
     private void Start(){
         currentHealth = maxHealth;
-        player = GetComponent<PlayerController>();
-        playerUI = player.GetUIManager();
-        playerUI.SetStartingHealthUI(maxHealth, currentHealth);
+
+        if (!isTarget){
+            player = GetComponent<PlayerController>();
+            playerUI = player.GetUIManager();
+            playerUI.SetStartingHealthUI(maxHealth, currentHealth);
+        }else{
+            Text[] targetTexts = GetComponentsInChildren<Text>();
+            for (int i = 0; i < targetTexts.Length; i++){
+                if (targetTexts[i].gameObject.name == "DamageText"){
+                    targetDamageText = targetTexts[i];
+                }
+            }
+        }
     }
 
     public void TakeDamage(int damage){
@@ -34,6 +45,7 @@ public class Health : NetworkBehaviour {
 
         if (isTarget){
             Debug.Log(damage);
+            targetDamageText.text = "Dmg: " + damage;
             return;
         }
 
